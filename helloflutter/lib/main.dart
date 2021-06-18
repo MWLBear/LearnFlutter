@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
 class HomeBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return _buildGirdDemo2();
+    return SliversDemo();
   }
 }
 
@@ -47,6 +47,7 @@ Widget _buildGridDemo1() => GridView(
       childAspectRatio: 1.0),
       children:_buildGridTitleList(100) ,
 );
+
 Widget _buildGirdDemo2() => GridView(
   gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
     maxCrossAxisExtent: 150,
@@ -57,6 +58,44 @@ Widget _buildGirdDemo2() => GridView(
   children: _buildGridTitleList(100),
 );
 
+Widget _buildGirdDemo3() {
+  return Container(
+    padding: EdgeInsets.all(8.0),
+    child: GridView.builder(
+      shrinkWrap: true,
+      physics: ClampingScrollPhysics(),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        mainAxisSpacing: 10,
+        crossAxisSpacing: 10,
+        childAspectRatio: 0.8,
+      ),
+      itemBuilder: (BuildContext context, int index) {
+        return Container(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Image.network(
+                'https://tva1.sinaimg.cn/large/006y8mN6gy1g7aa03bmfpj3069069mx8.jpg',
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Text(
+                "国服打野",
+                style: TextStyle(fontSize: 16),
+              ),
+              Text('手法流操作,今日不上百星,不下播,',
+                  maxLines: 1, overflow: TextOverflow.ellipsis)
+            ],
+          ),
+        );
+      },
+      itemCount: 10,
+    ),
+  );
+}
+
 List<Container> _buildGridTitleList(int count) => List.generate(count, (index) =>
     Container(
       alignment: Alignment.center,
@@ -64,8 +103,7 @@ List<Container> _buildGridTitleList(int count) => List.generate(count, (index) =
       color: Colors.red,)
 );
 
-
-Widget _buileTitleSecsstion() {
+Widget ListViewDemo() {
   return ListView(
     children: [
       _buildListTile(Icons.people, '联系人', '联系人信息'),
@@ -87,7 +125,7 @@ ListTile _buildListTile(IconData icon, String label, String subtitle) {
   );
 }
 
-Widget ListViewBuild = ListView.builder(
+Widget ListViewDemo1 = ListView.builder(
   itemCount: 100,
   itemExtent: 80,
   itemBuilder: (BuildContext context, int index){
@@ -114,4 +152,28 @@ Widget ListViewDemo2 = ListView.separated(
   itemCount: 100,
 );
 
-
+Widget SliversDemo() {
+  return CustomScrollView(
+    slivers: [
+      SliverSafeArea(
+        sliver: SliverPadding(
+          padding: EdgeInsets.all(8),
+          sliver: SliverGrid(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2, mainAxisSpacing: 8, crossAxisSpacing: 8),
+            delegate: SliverChildBuilderDelegate(
+              (BuildContext contex, int index) {
+                return Container(
+                  alignment: Alignment(0,0),
+                  color: Colors.red,
+                  child: Text('item$index'),
+                );
+              },
+              childCount: 20,
+            ),
+          ),
+        ),
+      ),
+    ],
+  );
+}
