@@ -46,7 +46,7 @@ class _NetTextContentState extends State<NetTextContent> {
     super.initState();
     var a = (2.1/2).floor();
     print('$a');
-    HttpRequest.requset("https://httpbin.org/get",params: {'name':'why'}).then((value){
+    HttpRequest.request("https://httpbin.org/get",params: {'name':'why'}).then((value){
       print(value);
     });
   }

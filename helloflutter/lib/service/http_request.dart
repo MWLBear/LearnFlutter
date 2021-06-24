@@ -6,7 +6,7 @@ class HttpRequest {
       baseUrl: HTTPConfig.baseURL, connectTimeout: HTTPConfig.timeout);
   static final Dio dio = Dio(options);
 
-  static Future<T> requset<T> (String url,
+  static Future<T> request<T> (String url,
       {String method = 'get', Map<String, dynamic>? params,Interceptor? inter}) async{
     //请求的单独配置
     final options = Options(method: method);

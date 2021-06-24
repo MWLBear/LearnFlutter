@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 class LZDashedLine extends StatelessWidget{
   final Axis? axis;
   final double dashedWidth;

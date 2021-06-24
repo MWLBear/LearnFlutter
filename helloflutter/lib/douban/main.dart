@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'LZStartRating.dart';
-import 'LZDashedLine.dart';
+import 'wigets/LZStartRating.dart';
+import 'wigets/LZDashedLine.dart';
+import 'package:helloflutter/douban/pages/main/main.dart';
+
+
 
 
 main() {
@@ -18,54 +21,9 @@ class MyApp extends StatelessWidget {
           highlightColor: Colors.transparent,
           splashColor: Colors.transparent),
 
-      home: MyStackPage(),
+      home:LZMainPage() ,
     );
   }
 }
 
-class MyStackPage extends StatefulWidget {
 
-  @override
-  _MyStackPageState createState() => _MyStackPageState();
-}
-
-class _MyStackPageState extends State<MyStackPage> {
-  var _currentIndex = 0;
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        selectedFontSize: 15,
-        unselectedFontSize: 15,
-        type: BottomNavigationBarType.fixed,
-        items: [
-          createItem("home", "首页"),
-          createItem("subject", "书影音"),
-          createItem("group", "小组"),
-          createItem("mall", "市集"),
-          createItem("profile", "我的"),
-        ],
-        onTap: (index){
-          setState(() {
-            _currentIndex = index;
-          });
-        },
-      ),
-      body: IndexedStack(
-        index: _currentIndex,
-        children: [
-
-        ],
-      ),
-    );
-  }
-}
-
-BottomNavigationBarItem createItem(String iconName, String title) {
-  return BottomNavigationBarItem(
-      icon: Image.asset('images/tabbar/$iconName.png', width: 30,),
-      activeIcon: Image.asset('images/tabbar/${iconName}_active.png', width: 30,),
-      title: Text(title)
-  );
-}
