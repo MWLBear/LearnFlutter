@@ -12,9 +12,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: "Flutter layout Demo",
       theme: ThemeData(
-        textButtonTheme: TextButtonThemeData(style: ButtonStyle()),
-        elevatedButtonTheme: ElevatedButtonThemeData(style: ButtonStyle()),
-      ),
+        primaryColor: Colors.blue, splashColor: Colors.transparent),
 
       home: Scaffold(
         appBar: AppBar(
@@ -46,12 +44,15 @@ class _NetTextContentState extends State<NetTextContent> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    var a = (2.1/2).floor();
+    print('$a');
     HttpRequest.requset("https://httpbin.org/get",params: {'name':'why'}).then((value){
       print(value);
     });
   }
   @override
   Widget build(BuildContext context) {
+
     return Container();
   }
 }
