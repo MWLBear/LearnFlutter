@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
+import 'home_content.dart';
 
-class Home extends StatefulWidget {
-
-  @override
-  _HomeState createState() => _HomeState();
-}
-
-class _HomeState extends State<Home> {
+class Home extends StatelessWidget {
+  const Home({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child:Center(
-          child: Text("Home",style: TextStyle(fontSize: 30),),
-        )
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("首页"),
+        foregroundColor: Colors.green,
+      ),
+      body: HomeContent(),
     );
   }
 }

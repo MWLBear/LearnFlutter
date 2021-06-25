@@ -1,21 +1,26 @@
 class Person {
   String? name;
   String? avatarURL;
+
+  Person(this.name,this.avatarURL);
   Person.formMap(Map<String,dynamic> json){
     this.name = json['name'];
     this.avatarURL = json['avatars']['medium'];
   }
 }
 class Actor extends Person {
+  Actor(String name, String avatarURL) : super(name, avatarURL);
   Actor.fromMap(Map<String,dynamic> json): super.formMap(json);
 }
 class Director extends Actor {
+  Director(String name, String avatarURL) : super(name, avatarURL);
   Director.fromMap(Map<String, dynamic> json): super.fromMap(json);
 }
 
 int counter = 1;
 
 class MovieItem {
+
   int? rank;
   String? imageURL;
   String? title;
@@ -25,6 +30,8 @@ class MovieItem {
   List<Actor>? casts;
   Director? director;
   String? originalTitle;
+
+  MovieItem({this.rank,this.imageURL,this.title,this.playDate,this.rating,this.genres,this.casts,this.director,this.originalTitle});
 
   MovieItem.fromMap(Map<String,dynamic> json) {
     this.rank = counter++;

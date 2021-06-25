@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:helloflutter/douban/pages/home/home.dart';
-import 'package:helloflutter/douban/pages/group/Group.dart';
-import 'package:helloflutter/douban/pages/mail/Mail.dart';
-import 'package:helloflutter/douban/pages/profile/Profile.dart';
-import 'package:helloflutter/douban/pages/subject/Subject.dart';
 
+import 'initialize_item.dart';
 import 'bottom_bar_item.dart';
 
 class LZMainPage extends StatefulWidget {
@@ -22,26 +18,15 @@ class _LZMainPageState extends State<LZMainPage> {
     return Scaffold(
       body: IndexedStack(
         index: _currentIndex,
-        children: [
-          Home(),
-          Subject(),
-          Group(),
-          Mail(),
-          Profile(),
-        ],
+        children: pages,
       ),
       bottomNavigationBar: BottomNavigationBar(
+        selectedItemColor: Colors.green,
         currentIndex: _currentIndex,
         selectedFontSize: 15,
         unselectedFontSize: 15,
         type: BottomNavigationBarType.fixed,
-        items: [
-          LZBottomBarItem("home", "首页"),
-          LZBottomBarItem("subject", "书影音"),
-          LZBottomBarItem("group", "小组"),
-          LZBottomBarItem("mall", "市集"),
-          LZBottomBarItem("profile", "我的"),
-        ],
+        items: items,
         onTap: (index){
           setState(() {
             _currentIndex = index;

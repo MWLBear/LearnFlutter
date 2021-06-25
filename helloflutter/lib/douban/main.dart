@@ -3,9 +3,6 @@ import 'wigets/LZStartRating.dart';
 import 'wigets/LZDashedLine.dart';
 import 'package:helloflutter/douban/pages/main/main.dart';
 
-
-
-
 main() {
   runApp(MyApp());
 }
@@ -17,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: "豆瓣",
       theme: ThemeData(
-          primaryColor: Colors.blue,
+          primaryColor: Colors.green,
           highlightColor: Colors.transparent,
           splashColor: Colors.transparent),
 

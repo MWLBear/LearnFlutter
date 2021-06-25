@@ -10,7 +10,7 @@ class LZDashedLine extends StatelessWidget{
     @required this.count,
     this.dashedWidth = 1,
     this.dashedHeight = 1,
-    this.color = const Color(0xffff0000)
+    this.color =  Colors.black12
 });
 
   @override

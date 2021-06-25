@@ -6,8 +6,9 @@ class HomeRequest {
   Future<List<MovieItem>> getMovieTopList(int start, int count) async {
     final url = "https://douban.uieee.com/v2/movie/top250?start=$start&count=$count";
     final result = await HttpRequest.request(url);
+    final subjects = result["subjects"];
     List<MovieItem> movies = [];
-    for(var sub in result){
+    for(var sub in subjects){
       movies.add(MovieItem.fromMap(sub));
     }
     return movies;
