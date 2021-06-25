@@ -12,7 +12,7 @@ class _MailState extends State<Mail> {
   Widget build(BuildContext context) {
     return Container(
         child:Center(
-          child: Text("Mail",style: TextStyle(fontSize: 30),),
+          child: Text("Mail",style: TextStyle(fontSize: 30,color: Colors.green),),
         )
     );
   }

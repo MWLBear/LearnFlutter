@@ -12,7 +12,7 @@ class _SubjectState extends State<Subject> {
   Widget build(BuildContext context) {
     return Container(
         child:Center(
-          child: Text("Subject",style: TextStyle(fontSize: 30),),
+          child: Text("Subject",style: TextStyle(fontSize: 30,color: Colors.green),),
         )
     );
   }

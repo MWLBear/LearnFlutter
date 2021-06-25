@@ -12,7 +12,7 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return Container(
         child:Center(
-          child: Text("Profile",style: TextStyle(fontSize: 30),),
+          child: Text("Profile",style: TextStyle(fontSize: 30,color: Colors.green),),
         )
     );
   }

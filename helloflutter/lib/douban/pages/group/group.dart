@@ -12,7 +12,7 @@ class _GroupState extends State<Group> {
   Widget build(BuildContext context) {
     return Container(
         child:Center(
-          child: Text("Group",style: TextStyle(fontSize: 30),),
+          child: Text("Group",style: TextStyle(fontSize: 30,color: Colors.green),),
         )
     );
   }
