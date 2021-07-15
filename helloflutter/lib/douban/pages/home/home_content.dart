@@ -43,6 +43,12 @@ class _HomeContentState extends State<HomeContent> {
 
   @override
   Widget build(BuildContext context) {
+
+    StatelessElement;
+    StatefulElement;
+
+    Container();
+    Padding;
     return ListView.builder(
         itemCount: movies.length,
         itemBuilder: (ctx, index) {

@@ -11,5 +11,6 @@ class LZBottomBarItem extends BottomNavigationBarItem {
             activeIcon: Image.asset(
               'images/tabbar/${iconName}_active.png',
               width: 30,
+              gaplessPlayback: true,
             ));
 }
