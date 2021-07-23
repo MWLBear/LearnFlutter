@@ -30,6 +30,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   dio: ^4.0.0
   provider: ^4.0.4
+  event_bus: ^2.0.0
+
 
 dev_dependencies:
   flutter_test:
