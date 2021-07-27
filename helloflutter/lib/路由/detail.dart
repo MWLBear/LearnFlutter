@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Detail extends StatelessWidget {
+  static const String routeName = "/detail";
   final String _message;
   Detail(this._message);
 
