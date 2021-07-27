@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:helloflutter/%E8%B7%AF%E7%94%B1/about.dart';
 import 'package:helloflutter/%E8%B7%AF%E7%94%B1/unknow.dart';
 import 'detail.dart';
+import 'router/router.dart';
 main() {
   runApp(MyApp());
 }
@@ -10,24 +11,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: HomeBody.routeName,
-      routes: {
-        HomeBody.routeName: (ctx) => HomeBody(),
-        AboutPage.routeName: (ctx) => AboutPage(),
-      },
-      onGenerateRoute: (settings){
-        if (settings.name == Detail.routeName){
-          return MaterialPageRoute(builder: (ctx){
-            return Detail(settings.arguments as String);
-          });
-        }
-        return null;
-      },
-      onUnknownRoute: (setting){
-        return MaterialPageRoute(builder: (ctx){
-          return UnKnownPage();
-        });
-      },
+      initialRoute: LZRouter.initialRoute,
+      routes:LZRouter.routes,
+      onGenerateRoute: LZRouter.generateRoute,
+      onUnknownRoute: LZRouter.unknownRote,
       title: "Demo",
       theme: ThemeData(
         textButtonTheme: TextButtonThemeData(style: ButtonStyle()),
