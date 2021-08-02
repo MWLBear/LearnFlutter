@@ -32,10 +32,10 @@ class HomeBody extends StatelessWidget {
         crossAxisCount: 2,
         crossAxisSpacing: 8,
         mainAxisSpacing: 8,
-        childAspectRatio: 2
+        childAspectRatio: 16/9
       ),
       children: List.generate(20, (index){
-        String imageURL = "https://picsum.photos/id/$index/400/200";
+        String imageURL = "https://picsum.photos/300/200?random=$index";
         return GestureDetector(
           onTap: (){
             Navigator.of(context).push(
@@ -49,7 +49,7 @@ class HomeBody extends StatelessWidget {
           },
           child: Hero(
             tag: imageURL,
-            child: Image.network(imageURL)
+            child: Image.network(imageURL,fit: BoxFit.cover,)
           ),
         );
       }),
