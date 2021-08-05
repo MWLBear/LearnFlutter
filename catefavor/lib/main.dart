@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:catefavor/ui/shared/app_them.dart';
 import 'package:catefavor/core/router/router.dart';
-import 'package:catefavor/ui/shared/LZSizeFit.dart';
+import 'package:catefavor/ui/shared/size_fit.dart';
+import 'package:provider/provider.dart';
+import 'package:catefavor/core/viewmodel/meal_view_model.dart';
 void main() {
-  runApp(MyApp());
+  runApp(
+      ChangeNotifierProvider(
+        create: (ctx) => LZMealViewModel() ,
+        child: MyApp(),
+      )
+  );
+
 }
 
 class MyApp extends StatelessWidget {

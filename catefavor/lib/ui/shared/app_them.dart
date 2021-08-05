@@ -15,8 +15,8 @@ class APPTheme {
     textTheme: TextTheme(
         bodyText2: TextStyle(fontSize: bodyFontSize),
         headline1: TextStyle(fontSize: smallFontSize,color: Colors.black87),
-        headline2: TextStyle(fontSize: smallFontSize,color: Colors.black87),
-        headline3: TextStyle(fontSize: smallFontSize,color: Colors.black87),
+        headline2: TextStyle(fontSize: normalFontSize,color: Colors.black87),
+        headline3: TextStyle(fontSize: largeFontSize,color: Colors.black87),
 
     ),
   );

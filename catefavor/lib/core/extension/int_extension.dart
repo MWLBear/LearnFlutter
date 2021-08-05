@@ -1,4 +1,4 @@
-import 'package:catefavor/ui/shared/LZSizeFit.dart';
+import 'package:catefavor/ui/shared/size_fit.dart';
 
 extension IntFit on int {
   double get px {

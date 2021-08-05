@@ -7,8 +7,8 @@ final List<Widget> pages = [
 ];
 final List<BottomNavigationBarItem> items = [
   BottomNavigationBarItem(
-    label: "首页",
-    icon: Icon(Icons.home)
+      label: "首页",
+      icon: Icon(Icons.home)
   ),
   BottomNavigationBarItem(
       label: "收藏",
