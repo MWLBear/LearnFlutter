@@ -23,7 +23,7 @@ class LZDetailContent extends StatelessWidget {
 
   Widget topImageView() =>  Container(
     width: double.infinity,
-    child: Image.network(_model.imageUrl!),
+    child: Image.network(_model.imageUrl!,fit: BoxFit.cover,),
   );
 
   Widget middleMakeMaterial(BuildContext context) {
