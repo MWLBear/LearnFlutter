@@ -6,7 +6,9 @@ class LZFilterContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text("filter"),
+      child: Center(
+          child: Text("filter",style: TextStyle(fontSize: 30,color: Colors.red),)
+      ),
     );
   }
 }
