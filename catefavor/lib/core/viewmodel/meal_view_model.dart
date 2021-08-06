@@ -9,7 +9,7 @@ class LZMealViewModel extends ChangeNotifier {
   LZMealViewModel(){
     LZMealRequest.getMetalData().then((res){
       _meals = res;
+      notifyListeners();
     });
-    notifyListeners();
   }
 }

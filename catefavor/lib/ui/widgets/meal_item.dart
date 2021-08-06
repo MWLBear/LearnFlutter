@@ -1,9 +1,10 @@
-import 'dart:ffi';
 
+import 'package:catefavor/core/viewmodel/favor_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:catefavor/core/model/meal_model.dart';
 import 'package:catefavor/ui/pages/detail/detail.dart';
 import 'package:catefavor/core/extension/int_extension.dart';
+import 'package:provider/provider.dart';
 import 'operation_item.dart';
 
 final cardRadius = 12.px;
@@ -57,18 +58,31 @@ class LZMealItem extends StatelessWidget {
   );
 
   Widget bottomWidget() => Padding(
-    padding: EdgeInsets.all(6.px),
-    child: Padding(
-      padding: EdgeInsets.all(16.px),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          LZOperationItem(Icon(Icons.schedule), "${_metalModel.duration!}分钟"),
-          LZOperationItem(Icon(Icons.restaurant), "${_metalModel.complexStr}"),
-          LZOperationItem(Icon(Icons.favorite), "未收藏"),
-        ],
-      ),
+    padding: EdgeInsets.all(4.px),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        LZOperationItem(Icon(Icons.schedule), "${_metalModel.duration!}分钟"),
+        LZOperationItem(Icon(Icons.restaurant), "${_metalModel.complexStr}"),
+        getFavorItem(),
+      ],
     ),
   );
 
+  Widget getFavorItem() => Consumer<LZFavorViewModel>(
+    builder: (ctx,VMmeal,child){
+      final iconData = VMmeal.isFavorMeal(_metalModel) ? Icons.favorite: Icons.favorite_border;
+      final iconColor = VMmeal.isFavorMeal(_metalModel) ? Colors.red: Colors.black;
+      final title = VMmeal.isFavorMeal(_metalModel)? "收藏":"未收藏";
+      return GestureDetector(
+          child: LZOperationItem(
+              Icon(iconData,color: iconColor,),
+              title,titleColor: iconColor,
+          ),
+        onTap: (){
+            VMmeal.handelMeal(_metalModel);
+        },
+      );
+    },
+  );
 }

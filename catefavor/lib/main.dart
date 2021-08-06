@@ -4,11 +4,17 @@ import 'package:catefavor/core/router/router.dart';
 import 'package:catefavor/ui/shared/size_fit.dart';
 import 'package:provider/provider.dart';
 import 'package:catefavor/core/viewmodel/meal_view_model.dart';
+import 'package:catefavor/core/viewmodel/favor_view_model.dart';
+
 void main() {
+
   runApp(
-      ChangeNotifierProvider(
-        create: (ctx) => LZMealViewModel() ,
-        child: MyApp(),
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (ctx) => LZMealViewModel()),
+          ChangeNotifierProvider(create: (ctx) => LZFavorViewModel()),
+        ],
+        child: MyApp() ,
       )
   );
 

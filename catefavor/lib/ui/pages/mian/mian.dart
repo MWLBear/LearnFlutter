@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'initialize_items.dart';
-
+import 'package:catefavor/ui/pages/home/home_drawer.dart';
 class LZMainScreen extends StatefulWidget {
   static const String routeName = "/";
   @override
@@ -12,6 +12,7 @@ class _LZMainScreenState extends State<LZMainScreen> {
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
+      drawer: LZHomeDarwer(),
       body: IndexedStack(
         index: _currentIndex,
         children: pages,

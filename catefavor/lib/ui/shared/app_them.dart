@@ -10,7 +10,8 @@ class APPTheme {
 
   static final ThemeData lightThem = ThemeData(
     primarySwatch:Colors.pink,
-    // primaryColor: Colors.pink,
+    accentColor: Colors.amber,
+    canvasColor:Color.fromRGBO(255, 254, 222, 1),
     scaffoldBackgroundColor: Color.fromRGBO(255, 254, 222, 1),
     textTheme: TextTheme(
         bodyText2: TextStyle(fontSize: bodyFontSize),

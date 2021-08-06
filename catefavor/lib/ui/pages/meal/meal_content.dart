@@ -11,6 +11,7 @@ class LZMealContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final category = ModalRoute.of(context)!.settings.arguments as LZCategoryModel;
+    print("category:$category");
 
     return Selector<LZMealViewModel,List<LZMetalModel>>(
       selector: (ctx,melaVM) => melaVM.meals.where((element) => element.categories!.contains(category.id)).toList(),

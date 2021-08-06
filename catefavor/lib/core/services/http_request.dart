@@ -1,5 +1,9 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'config.dart';
+import 'dart:convert';
+
 class HttpRequest {
   static final BaseOptions baseOptions = BaseOptions(baseUrl: HttpConfig.baseURL,connectTimeout: HttpConfig.timeOut);
   static final Dio dio = Dio(baseOptions);
