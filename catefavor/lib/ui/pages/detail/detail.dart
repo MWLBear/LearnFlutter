@@ -21,7 +21,7 @@ class LZDetailScreen extends StatelessWidget {
           return FloatingActionButton(
               child: Icon(iconData,color: iconColor,),
               onPressed: (){
-                VMMeal.handelMeal(model);
+                VMMeal.handleMeal(model);
               });
         },
       )

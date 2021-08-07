@@ -25,7 +25,7 @@ class LZHomeCategoryItem extends StatelessWidget {
         alignment: Alignment.center,
         child: Text(
           _category.title,
-          style: Theme.of(context).textTheme.headline1!.copyWith(
+          style: Theme.of(context).textTheme.headline3!.copyWith(
               fontWeight: FontWeight.bold
           ),
         ),

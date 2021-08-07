@@ -70,17 +70,18 @@ class LZMealItem extends StatelessWidget {
   );
 
   Widget getFavorItem() => Consumer<LZFavorViewModel>(
-    builder: (ctx,VMmeal,child){
-      final iconData = VMmeal.isFavorMeal(_metalModel) ? Icons.favorite: Icons.favorite_border;
-      final iconColor = VMmeal.isFavorMeal(_metalModel) ? Colors.red: Colors.black;
-      final title = VMmeal.isFavorMeal(_metalModel)? "收藏":"未收藏";
+    builder: (ctx,mealVM,child){
+      final iconData = mealVM.isFavorMeal(_metalModel) ? Icons.favorite: Icons.favorite_border;
+      final iconColor = mealVM.isFavorMeal(_metalModel) ? Colors.red: Colors.black;
+      final title = mealVM.isFavorMeal(_metalModel)? "收藏":"未收藏";
       return GestureDetector(
           child: LZOperationItem(
               Icon(iconData,color: iconColor,),
               title,titleColor: iconColor,
           ),
         onTap: (){
-            VMmeal.handelMeal(_metalModel);
+            print("点击了收藏");
+            mealVM.handleMeal(_metalModel);
         },
       );
     },

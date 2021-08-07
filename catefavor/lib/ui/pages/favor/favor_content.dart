@@ -10,15 +10,15 @@ class LZFavorContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<LZFavorViewModel>(
       builder: (ctx,favorVM,child){
-        if(favorVM.favorMeals.isEmpty){
+        if(favorVM.meals.isEmpty){
           return Center(
             child: Text("暂无收藏",style: Theme.of(context).textTheme.headline3,),
           );
         }
         return ListView.builder(
-          itemCount: favorVM.favorMeals.length,
+          itemCount: favorVM.meals.length,
           itemBuilder: (itemCtx,index){
-            return LZMealItem(favorVM.favorMeals[index]);
+            return LZMealItem(favorVM.meals[index]);
           },
         );
       },

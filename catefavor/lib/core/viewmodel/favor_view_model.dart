@@ -1,28 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:catefavor/core/model/meal_model.dart';
+import 'base_view_model.dart';
 
-class LZFavorViewModel extends ChangeNotifier{
-  List<LZMetalModel> _model = [];
-  List<LZMetalModel> get favorMeals {
-    return _model;
-  }
-  LZFavorViewModel();
+class LZFavorViewModel extends LZBaseViewModel{
+
   void addMeal(LZMetalModel model){
-    _model.add(model);
+    originMeals.add(model);
     notifyListeners();
   }
   void removeMeal(LZMetalModel model){
-    _model.remove(model);
+    originMeals.remove(model);
     notifyListeners();
   }
   bool isFavorMeal(LZMetalModel model){
-    return _model.contains(model);
+    return originMeals.contains(model);
   }
 
-  void handelMeal(LZMetalModel model){
+  void handleMeal(LZMetalModel model){
     if (isFavorMeal(model)){
+      print("removeMeal");
       removeMeal(model);
     }else{
+      print("add");
       addMeal(model);
     }
   }
