@@ -4,7 +4,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:catefavor/core/user_default/sputils.dart';
 
 class LZFilterViewModel extends ChangeNotifier{
-  Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+
+  final _keyGlutenFree = "isGlutenFree";
+  final _keyLactoseFree = "isLactoseFree";
+  final _keyVegetarian = "isVegetarian";
+  final _keyVegan = "isVegan";
 
   // 无谷蛋白
   bool _isGlutenFree = false;
@@ -15,38 +19,36 @@ class LZFilterViewModel extends ChangeNotifier{
   // 严格素食主义
   bool _isVegan = false;
 
-  bool get isGlutenFree {
-    _isGlutenFree = SpUtils.getBool(LZUserDefault.isGlutenFree);
-    return _isGlutenFree;
-  }
+  bool get isGlutenFree => SpUtils.getBool(_keyGlutenFree);
 
   set isGlutenFree(bool value) {
-    SpUtils.setBool(LZUserDefault.isGlutenFree, value);
+    SpUtils.setBool(_keyGlutenFree, value);
     _isGlutenFree = value;
     notifyListeners();
   }
 
 
-  bool get isLactoseFree {
-    return _isLactoseFree;
-  }
+  bool get isLactoseFree => SpUtils.getBool(_keyLactoseFree);
 
   set isLactoseFree(bool value) {
+    SpUtils.setBool(_keyLactoseFree, value);
     _isLactoseFree = value;
     notifyListeners();
   }
 
-  bool get isVegan => _isVegan;
+  bool get isVegan => SpUtils.getBool(_keyVegan);
 
   set isVegan(bool value) {
     _isVegan = value;
+    SpUtils.setBool(_keyVegan, value);
     notifyListeners();
   }
 
-  bool get isVegetarian => _isVegetarian;
+  bool get isVegetarian => SpUtils.getBool(_keyVegetarian);
 
   set isVegetarian(bool value) {
     _isVegetarian = value;
+    SpUtils.setBool(_keyVegetarian, value);
     notifyListeners();
   }
 }

@@ -3,12 +3,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class LZUserDefault {
   //Future<SharedPreferences> prefs = SharedPreferences.getInstance();
-
-  static const String isGlutenFree = "isGlutenFree";
-  static const String isLactoseFree = "isLactoseFree";
-  static const String isVegetarian = "isVegetarian";
-  static const String isVegan = "isVegan";
-
   /// 保存数据
   static saveData<T>(String key, T value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
