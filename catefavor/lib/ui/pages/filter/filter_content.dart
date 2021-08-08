@@ -1,11 +1,25 @@
 
+import 'package:catefavor/core/user_default/use_default.dart';
 import 'package:catefavor/core/viewmodel/filter_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:catefavor/core/extension/int_extension.dart';
 import 'package:provider/provider.dart';
-class LZFilterContent extends StatelessWidget {
+
+class LZFilterContent extends StatefulWidget {
+  @override
+  _LZFilterContentState createState() => _LZFilterContentState();
+}
+
+class _LZFilterContentState extends State<LZFilterContent> {
+  bool _isGlutenFree = false;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
+
     return Container(
       child: Column(
         children: [
@@ -15,11 +29,13 @@ class LZFilterContent extends StatelessWidget {
       )
     );
   }
+
   Widget getTitleView() => Container(
     padding: EdgeInsets.all(18.px),
     alignment: Alignment.center,
     child: Text("展示你的选择",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
   );
+
   Widget getChoiceView() => Expanded(
     child: Consumer<LZFilterViewModel>(
       builder: (ctx,filterVM,chile){
@@ -42,12 +58,12 @@ class LZFilterContent extends StatelessWidget {
       },
     ),
   );
+
   Widget buildListTitle(String title,String subtitle,bool value, Function(bool) change){
     return ListTile(
       title: Text(title),
       subtitle: Text(subtitle),
-      trailing: Switch(value: value, onChanged: change,
-      ),
+      trailing: Switch(value: value, onChanged: change),
     );
   }
 }

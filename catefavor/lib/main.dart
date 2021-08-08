@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:catefavor/core/viewmodel/meal_view_model.dart';
 import 'package:catefavor/core/viewmodel/favor_view_model.dart';
 import 'package:catefavor/core/viewmodel/filter_view_model.dart';
+import 'package:catefavor/core/user_default/sputils.dart';
 
 void main() {
 
@@ -30,9 +31,12 @@ void main() {
         child: MyApp() ,
       )
   );
-
+  loadAsync();
 }
 
+void loadAsync() async {
+  await SpUtils.getInstance(); //等待Sp初始化完成
+}
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override

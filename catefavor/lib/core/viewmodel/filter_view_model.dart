@@ -1,6 +1,11 @@
+import 'package:catefavor/core/user_default/use_default.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:catefavor/core/user_default/sputils.dart';
 
 class LZFilterViewModel extends ChangeNotifier{
+  Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+
   // 无谷蛋白
   bool _isGlutenFree = false;
   // 有无乳糖
@@ -10,7 +15,21 @@ class LZFilterViewModel extends ChangeNotifier{
   // 严格素食主义
   bool _isVegan = false;
 
-  bool get isLactoseFree => _isLactoseFree;
+  bool get isGlutenFree {
+    _isGlutenFree = SpUtils.getBool(LZUserDefault.isGlutenFree);
+    return _isGlutenFree;
+  }
+
+  set isGlutenFree(bool value) {
+    SpUtils.setBool(LZUserDefault.isGlutenFree, value);
+    _isGlutenFree = value;
+    notifyListeners();
+  }
+
+
+  bool get isLactoseFree {
+    return _isLactoseFree;
+  }
 
   set isLactoseFree(bool value) {
     _isLactoseFree = value;
@@ -22,14 +41,6 @@ class LZFilterViewModel extends ChangeNotifier{
   set isVegan(bool value) {
     _isVegan = value;
     notifyListeners();
-  }
-
-  bool get isGlutenFree => _isGlutenFree;
-
-  set isGlutenFree(bool value) {
-    _isGlutenFree = value;
-    notifyListeners();
-
   }
 
   bool get isVegetarian => _isVegetarian;
