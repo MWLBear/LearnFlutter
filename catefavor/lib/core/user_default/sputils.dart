@@ -41,7 +41,6 @@ class SpUtils {
     return _prefs!.setString(key, value);
   }
 
-  ///例举的String型存储及获取
   static bool getBool(String key) {
     if (_prefs == null) return false;
     var status = _prefs!.getBool(key);
