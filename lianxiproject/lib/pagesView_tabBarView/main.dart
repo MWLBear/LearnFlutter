@@ -1,5 +1,6 @@
+
 import 'package:flutter/material.dart';
-import 'first_page.dart';
+import 'pull_load_more.dart';
 import 'second_page.dart';
 import 'third_page.dart';
 
@@ -46,7 +47,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
               onPressed: (){
                 /// 如果是使用 TabBarView,可以控制点击界面的变动
                 /// _tabController.animateTo(i);
-
+                // _pageController.jumpToPage(i);
                 _pageController.jumpTo(MediaQuery.of(context).size.width *i);
               },
               child:Text(
@@ -112,12 +113,16 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
         title: Text(widget.title),
 
         bottom: TabBar(
-          isScrollable: false,
+          labelColor: Colors.blue,
+          unselectedLabelColor: Colors.white,
+          indicatorSize: TabBarIndicatorSize.label,
+          isScrollable: true,
           controller: _tabController,
           tabs:
            // _tabViews(),
-          tab.map((e) => Tab(child: Text(e,style: TextStyle(fontSize: 20,color: Colors.red),),)).toList(),
-          indicatorColor: Colors.black45,
+          tab.map((e) => Tab(child: Text(e,style: TextStyle(fontSize: 20),),)).toList(),
+          indicatorColor: Colors.white,
+          automaticIndicatorColorAdjustment: true,
         ),
       ),
       body:
