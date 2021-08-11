@@ -8,6 +8,7 @@ class LZBaseViewModel extends ChangeNotifier {
 
   updateFilters(LZFilterViewModel filterViewModel){
     _filterVM = filterViewModel;
+    notifyListeners();
   }
   List<LZMetalModel> get meals {
     return _meals.where((meal) {
