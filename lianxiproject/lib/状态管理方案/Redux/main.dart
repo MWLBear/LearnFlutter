@@ -12,6 +12,8 @@ import 'count_state.dart';
 **/
 
 main() {
+ // Store接收一个reducer，以及初始化State，我们想用Redux管理全局的状态的话，需要将store储存在应用的入口才行。
+
   final store = Store<CountState>(reducer,initialState: CountState.initState());
   runApp(MyApp(store));
 }
@@ -56,7 +58,6 @@ class HomeBody extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-
           //首先这里需要强制声明类型，S代表我们需要从store中获取什么类型的state，ViewModel指的是我们使用这个State时的实际类型。
           //converter<S,ViewModel>，它的作用是将Store转化成实际ViewModel将要使用的信息
           //builder是我们实际根据state创建Widget的地方，它接收一个上下文context，以及刚才我们转化出来的ViewMode

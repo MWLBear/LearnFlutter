@@ -1,6 +1,10 @@
 import 'package:redux/redux.dart';
 import 'book.dart';
 
+//可以使用combineReducers，将action和函数绑定起来,减少getReduce里面的代码量
+
+
+
 final BookReducer = combineReducers<Book>([
   TypedReducer<Book,AddBookAction>(_add),
   TypedReducer<Book,UpdateBookAction>(_update)

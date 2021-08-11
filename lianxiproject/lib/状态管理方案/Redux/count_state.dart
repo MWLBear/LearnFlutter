@@ -19,6 +19,10 @@ class CountState{
 
 enum LZActions{ Increment }
 
+//reducer是我们的状态生成器，它接收一个我们原来的状态，然后接收一个action，再匹配这个action生成一个新的状态。
+/**
+ * reducer会根据传进来的action生成新的CountState
+ */
 CountState reducer(CountState state, action){
   if(action == LZActions.Increment){
     return CountState(state.count + 1);
