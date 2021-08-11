@@ -19,7 +19,7 @@ class CountState{
 
 enum LZActions{ Increment }
 
-CountState reducer(CountState state,dynamic action){
+CountState reducer(CountState state, action){
   if(action == LZActions.Increment){
     return CountState(state.count + 1);
   }

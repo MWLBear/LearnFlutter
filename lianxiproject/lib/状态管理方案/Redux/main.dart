@@ -4,11 +4,10 @@ import 'package:redux/redux.dart';
 import 'count_state.dart';
 
 /**
-
-action 用于定义一个数据变化的请求。
-reducer 用于根据 action 产生新状态
-store 用于存储和管理 state，监听 action，将 action 自动分配给 reducer 并根据 reducer 的执行结果更新 state。
-
+ * 我们在Redux中，所有的状态都储存在Store里。这个Store会放在App顶层。
+ * action 用于定义一个数据变化的请求。
+ * reducer 用于根据 action 产生新状态
+ * store 用于存储和管理 state，监听 action，将 action 自动分配给 reducer 并根据 reducer 的执行结果更新 state。
 
 **/
 
@@ -31,8 +30,10 @@ class MyApp extends StatelessWidget {
             title: Text("Flutter Redux Demo"),
           ),
           body: HomeBody(),
+
+
           floatingActionButton: StoreConnector<CountState,VoidCallback>(
-            converter: (state) {
+            converter: (store) {
               return () => store.dispatch(LZActions.Increment);
               },
             builder: (ctx,callback){
@@ -55,6 +56,11 @@ class HomeBody extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+
+          //首先这里需要强制声明类型，S代表我们需要从store中获取什么类型的state，ViewModel指的是我们使用这个State时的实际类型。
+          //converter<S,ViewModel>，它的作用是将Store转化成实际ViewModel将要使用的信息
+          //builder是我们实际根据state创建Widget的地方，它接收一个上下文context，以及刚才我们转化出来的ViewMode
+
           StoreConnector<CountState,int>(
               converter: (store) => store.state.count,
               builder: (ctx,count){
