@@ -29,16 +29,15 @@ class _PostsListState extends State<PostsList> {
             if (state.posts.isEmpty) {
               return const Center(child: Text('no posts'));
             }
-            return ListView.builder(
-              itemBuilder: (BuildContext context, int index) {
-                return index >= state.posts.length
-                    ? BottomLoader()
-                    : PostListItem(post: state.posts[index]);
-              },
-              itemCount: state.hasReachedMax
-                  ? state.posts.length
-                  : state.posts.length + 1,
-              controller: _scrollController,
+            return RefreshIndicator(
+              onRefresh:_refresh ,
+              child: ListView.builder(
+                itemBuilder: (BuildContext context, int index) {
+                  return _getItem(state, index);
+                },
+                itemCount:state.posts.length + 1,
+                controller: _scrollController,
+              ),
             );
           default:
             return const Center(child: CircularProgressIndicator());
@@ -55,7 +54,6 @@ class _PostsListState extends State<PostsList> {
 
   void _onScroll() {
     if (_isBottom){
-      print("加载更多");
       _postBloc.add(PostFetched());
     }
   }
@@ -65,5 +63,19 @@ class _PostsListState extends State<PostsList> {
     final maxScroll = _scrollController.position.maxScrollExtent;
     final currentScroll = _scrollController.offset;
     return currentScroll >= (maxScroll * 0.9);
+  }
+
+  Future _refresh() async{
+    _postBloc.add(PostRefresh());
+  }
+  _getItem(PostState state,int index){
+    if (index >= state.posts.length){
+      if(state.hasReachedMax){
+        return BottomNoMore();
+      }
+      return BottomLoader();
+    }else{
+      return PostListItem(post: state.posts[index]);
+    }
   }
 }

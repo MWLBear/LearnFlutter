@@ -32,9 +32,28 @@ class PostBloc extends Bloc<PostEvent, PostState> {
   Stream<PostState> mapEventToState(PostEvent event) async* {
     if (event is PostFetched) {
       yield await _mapPostFetchedToState(state);
+    }else if (event is PostRefresh){
+      yield await _mapPostRefreshToState(state);
     }
   }
 
+  //下拉刷新
+  Future<PostState> _mapPostRefreshToState(PostState state) async{
+    try{
+      print("state: $state");
+      final posts = await _fetchPosts();
+      return state.copyWith(
+        status: PostStatus.success,
+        posts: posts,
+        hasReachedMax: false,
+      );
+    }on Exception {
+      return state.copyWith(status: PostStatus.failure);
+    }
+  }
+
+
+  //上拉加载更多
   Future<PostState> _mapPostFetchedToState(PostState state) async {
     if (state.hasReachedMax) return state;
     try {
