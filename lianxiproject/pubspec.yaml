@@ -33,6 +33,9 @@ dependencies:
   scoped_model: ^2.0.0-nullsafety.0
   flutter_redux: ^0.8.2
   flutter_bloc: ^7.1.0
+  equatable: ^2.0.0
+  rxdart: ^0.26.0
+
 
 dev_dependencies:
   flutter_test:
