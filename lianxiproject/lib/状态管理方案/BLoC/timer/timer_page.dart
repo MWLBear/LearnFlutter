@@ -49,6 +49,7 @@ class TimerText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    /// context.select 可用于检索状态的一部分并仅在所选部分发生更改时对更改做出反应。
     final duration = context.select((TimerBloc bloc) => bloc.state.duration);
     final minutesStr = ((duration / 60) % 60).floor().toString().padLeft(2, '0');
     final secondsStr = (duration % 60).floor().toString().padLeft(2, '0');
