@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
 
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'Flutter Home Page'),
     );
   }
 }
@@ -118,20 +118,18 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
           indicatorSize: TabBarIndicatorSize.label,
           isScrollable: true,
           controller: _tabController,
-          tabs:
-           // _tabViews(),
-          tab.map((e) => Tab(child: Text(e,style: TextStyle(fontSize: 20),),)).toList(),
+          tabs: _tabViews(),
+          //tab.map((e) => Tab(child: Text(e,style: TextStyle(fontSize: 20),),)).toList(),
           indicatorColor: Colors.white,
           automaticIndicatorColorAdjustment: true,
         ),
       ),
-      body:
-      //_pageView(),
+      body: _pageView(),
 
-      TabBarView(
-        controller: _tabController,
-        children: _pages()
-      ),
+      // TabBarView(
+      //   controller: _tabController,
+      //   children: _pages()
+      // ),
 
       // bottomNavigationBar: Material(
       //   color: Colors.black45,

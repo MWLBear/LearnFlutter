@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'photo_preview.dart';
 
 
 class FirstPage extends StatefulWidget {
@@ -13,10 +14,13 @@ class FirstPage extends StatefulWidget {
   _FirstPageState createState() => _FirstPageState();
 }
 
-class _FirstPageState extends State<FirstPage> {
+class _FirstPageState extends State<FirstPage> with AutomaticKeepAliveClientMixin{
 
   late ScrollController _scrollController;
   late List<String> images = [];
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -61,10 +65,26 @@ class _FirstPageState extends State<FirstPage> {
           );
   }
 
-  Widget _buildItem(String url){
+  Widget _buildItem(int index){
+    InkWell();
     return Container(
       constraints: BoxConstraints.tightFor(height: 150.0),
-      child: Image.network(url, fit: BoxFit.cover,),
+      child: InkWell(
+        onTap: (){
+          Navigator.push(context,MaterialPageRoute(builder:(_)=>PhotoPreview(
+            pageChanged: (index){
+              print(index);
+            },
+            galleryItems:images,
+            defaultImage: index,
+          )));
+        },
+        child: Hero(
+          child: Image.network(images[index], fit: BoxFit.cover),
+          tag: images[index],
+        )
+      )
+
     );
   }
 
@@ -108,7 +128,7 @@ class _FirstPageState extends State<FirstPage> {
       return _buildEmpty();
     } else {
       ///回调外部正常渲染Item，如果这里有需要，可以直接返回相对位置的index
-      return _buildItem(this.images[index]);
+      return _buildItem(index);
     }
   }
 

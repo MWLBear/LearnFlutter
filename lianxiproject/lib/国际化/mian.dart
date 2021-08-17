@@ -38,19 +38,23 @@ class HomeBody extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
     print("HomeBody build");
-    return Center(
-      child: Column(
-        children: [
-          Text(S.of(context).greet),
-          ElevatedButton(onPressed: (){
-            showDatePicker(
-                context: context,
-                initialDate: DateTime.now(),
-                firstDate: DateTime(2019),
-                lastDate: DateTime(2022)
-            );
-          }, child: Text(S.of(context).picktime))
-        ],
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Center(
+        child: Column(
+          children: [
+            Text(S.of(context).greet),
+            SizedBox(height: 10),
+            ElevatedButton(onPressed: (){
+              showDatePicker(
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime(2019),
+                  lastDate: DateTime(2022)
+              );
+            }, child: Text(S.of(context).picktime))
+          ],
+        ),
       ),
     );
   }
