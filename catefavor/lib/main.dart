@@ -43,6 +43,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     LZSizeFit.initialize();
     return MaterialApp(
+      debugShowCheckedModeBanner:false,
       title: '美食广场',
       theme: APPTheme.lightThem,
       initialRoute: LZRouter.initialRoute,
