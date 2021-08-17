@@ -71,13 +71,18 @@ class _FirstPageState extends State<FirstPage> with AutomaticKeepAliveClientMixi
       constraints: BoxConstraints.tightFor(height: 150.0),
       child: InkWell(
         onTap: (){
-          Navigator.push(context,MaterialPageRoute(builder:(_)=>PhotoPreview(
-            pageChanged: (index){
-              print(index);
-            },
-            galleryItems:images,
-            defaultImage: index,
-          )));
+          Navigator.push(context,PageRouteBuilder(
+            pageBuilder: (BuildContext context, Animation animation,
+                Animation secondaryAnimation){
+              return FadeTransition(
+                opacity: animation as Animation<double>,
+                child: PhotoPreview(
+                  galleryItems: images,
+                  defaultImage: index,
+                ),
+              );
+            }
+          ));
         },
         child: Hero(
           child: Image.network(images[index], fit: BoxFit.cover),
