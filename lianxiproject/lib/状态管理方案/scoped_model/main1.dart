@@ -13,9 +13,9 @@ class MyApp extends StatelessWidget {
   final CounterModel model;
 
   const MyApp({Key? key, required this.model}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
+    InheritedWidget;
     return ScopedModel<CounterModel>(
       model: model,
       child: MaterialApp(
