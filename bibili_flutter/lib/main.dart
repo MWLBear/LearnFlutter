@@ -1,3 +1,4 @@
+import 'package:bibili_flutter/db/hi_cache.dart';
 import 'package:bibili_flutter/http/core/hi_error.dart';
 import 'package:bibili_flutter/http/core/hi_net.dart';
 import 'package:bibili_flutter/http/request/test_request.dart';
@@ -51,6 +52,11 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
+  @override
+  void initState() {
+    super.initState();
+  }
+
   void _incrementCounter() async {
     TestRequest testRequest = TestRequest();
     testRequest.add("aa", "dd").add("dddd", "cccc").add("requestPrams", "kkkk");
@@ -62,6 +68,13 @@ class _MyHomePageState extends State<MyHomePage> {
     } on NeedAuth catch (e) {
       print(e);
     }
+    test2();
+  }
+
+  void test2() {
+    HiCache.getInstance().setString("aa", "1234");
+    var value = HiCache.getInstance().get("aa");
+    print('value:$value');
   }
 
   @override
