@@ -2,6 +2,8 @@ import 'package:bibili_flutter/db/hi_cache.dart';
 import 'package:bibili_flutter/http/core/hi_error.dart';
 import 'package:bibili_flutter/http/core/hi_net.dart';
 import 'package:bibili_flutter/http/request/test_request.dart';
+import 'package:bibili_flutter/page/login_page.dart';
+import 'package:bibili_flutter/util/color.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -24,9 +26,24 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.blue,
+        primarySwatch: white,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: BiliApp(),
+    );
+  }
+}
+
+class BiliApp extends StatelessWidget {
+  const BiliApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: HiCache.preInit(),
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (!snapshot.hasData) return CircularProgressIndicator();
+        return LoginPage();
+      },
     );
   }
 }
@@ -55,7 +72,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    HiCache.preInit();
   }
 
   void _incrementCounter() async {
@@ -70,12 +86,6 @@ class _MyHomePageState extends State<MyHomePage> {
       print(e);
     }
     test2();
-  }
-
-  void test2() {
-    HiCache.getInstance().setString("aa", "1234");
-    var value = HiCache.getInstance().get("aa");
-    print('value:$value');
   }
 
   @override
@@ -129,4 +139,10 @@ class _MyHomePageState extends State<MyHomePage> {
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
+}
+
+void test2() {
+  HiCache.getInstance().setString("aa", "1234");
+  var value = HiCache.getInstance().get("aa");
+  print('value:$value');
 }

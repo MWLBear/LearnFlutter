@@ -34,6 +34,7 @@ class HiNet {
     var status = response?.statusCode;
     switch (status) {
       case 200:
+        printLog("200");
         return result;
       case 401:
         throw NeedLogin();

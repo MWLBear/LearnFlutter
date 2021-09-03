@@ -1,3 +1,5 @@
+import 'package:bibili_flutter/http/dao/login_dao.dart';
+
 enum HttpMethod { GET, POST, DELETE }
 
 abstract class BaseRequest {
@@ -24,7 +26,14 @@ abstract class BaseRequest {
     } else {
       uri = Uri.http(authority(), pathStr, params);
     }
-    print("url:${uri.toString()}");
+    var boardingPass = LoginDao.getBoardingPass();
+    if (needLogin() && boardingPass != null) {
+      // 给需要登录的接口携带登录令牌
+      addHeader(LoginDao.BOARDING_PASS, boardingPass);
+    }
+    print("请求url:${uri.toString()}");
+    print('请求头:$header');
+    print('请求参:$params');
     return uri.toString();
   }
 
@@ -35,7 +44,10 @@ abstract class BaseRequest {
     return this;
   }
 
-  Map<String, dynamic> header = {};
+  Map<String, dynamic> header = {
+    'course-flag': 'fa',
+    "auth-token": "ZmEtMjAyMS0wNC0xMiAyMToyMjoyMC1mYQ==fa",
+  };
   BaseRequest addHeader(String k, Object v) {
     header[k] = v.toString();
     return this;
