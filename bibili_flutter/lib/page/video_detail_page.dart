@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class VideoDetail extends StatefulWidget {
   final VideoModel model;
 
-  const VideoDetail({Key? key, required this.model}) : super(key: key);
+  const VideoDetail(this.model);
 
   @override
   _VideoDetailState createState() => _VideoDetailState();

@@ -1,7 +1,7 @@
 import 'package:bibili_flutter/db/hi_cache.dart';
 import 'package:bibili_flutter/http/core/hi_error.dart';
 import 'package:bibili_flutter/http/dao/login_dao.dart';
-import 'package:bibili_flutter/page/registration_page.dart';
+import 'package:bibili_flutter/navigator/hi_navigator.dart';
 import 'package:bibili_flutter/util/string_util.dart';
 import 'package:bibili_flutter/util/toast.dart';
 import 'package:bibili_flutter/widget/appbar.dart';
@@ -11,8 +11,6 @@ import 'package:bibili_flutter/widget/login_input.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
-
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -48,18 +46,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBar('密码登陆', '注册', () {
-        Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) {
-            return RegistrationPage(
-              onJumpToLogin: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) {
-                  return LoginPage();
-                }));
-              },
-            );
-          }),
-        );
+        HiNavigator.getInstance().onJump(RouteStatus.registration);
       }),
       body: Container(
         child: ListView(
@@ -123,6 +110,7 @@ class _LoginPageState extends State<LoginPage> {
         showToast('登录成功');
         HiCache.getInstance().setString(userNameK, userName!);
         HiCache.getInstance().setString(passwordK, passWord!);
+        HiNavigator.getInstance().onJump(RouteStatus.home);
       } else {
         print(result['msg']);
         showWarnToast(result['msg']);
