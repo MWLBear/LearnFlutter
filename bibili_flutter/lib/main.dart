@@ -1,4 +1,5 @@
 import 'package:bibili_flutter/db/hi_cache.dart';
+import 'package:bibili_flutter/http/core/hi_error.dart';
 import 'package:bibili_flutter/http/dao/login_dao.dart';
 import 'package:bibili_flutter/model/video_model.dart';
 import 'package:bibili_flutter/navigator/hi_navigator.dart';
@@ -9,6 +10,7 @@ import 'package:bibili_flutter/util/color.dart';
 import 'package:bibili_flutter/util/toast.dart';
 import 'package:flutter/material.dart';
 
+import 'http/core/hi_net.dart';
 import 'navigator/bottom_navigator.dart';
 
 void main() {
@@ -56,6 +58,16 @@ class BiliRouteDelegate extends RouterDelegate<BiliRoutePath>
       }
       notifyListeners();
     }));
+
+    HiNet.getInstance().setErrorInterceptor((error) {
+      if (error is NeedLogin) {
+        //清空失效的登录令牌
+        HiCache.getInstance().remove(LoginDao.BOARDING_PASS);
+
+        //拉起登录
+        HiNavigator.getInstance().onJump(RouteStatus.login);
+      }
+    });
   }
 
   RouteStatus _routeStatus = RouteStatus.home;

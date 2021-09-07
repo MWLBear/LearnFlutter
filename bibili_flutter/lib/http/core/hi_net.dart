@@ -1,10 +1,14 @@
 import 'package:bibili_flutter/http/core/dio_adapter.dart';
 import 'package:bibili_flutter/http/core/hi_error.dart';
+import 'package:bibili_flutter/http/core/hi_interceptor.dart';
 import 'package:bibili_flutter/http/core/hi_net_adapter.dart';
 import 'package:bibili_flutter/http/request/base_request.dart';
 
 class HiNet {
   HiNet._();
+
+  HiErrorInterceptor? _hiErrorInterceptor;
+
   static HiNet? _instance;
   static HiNet getInstance() {
     if (_instance == null) {
@@ -48,6 +52,10 @@ class HiNet {
   Future<HiNetResponse<T>> send<T>(BaseRequest request) async {
     HiNetAdapter adapter = DioAdapter();
     return adapter.send(request);
+  }
+
+  void setErrorInterceptor(HiErrorInterceptor interceptor) {
+    this._hiErrorInterceptor = interceptor;
   }
 
   void printLog(log) {
