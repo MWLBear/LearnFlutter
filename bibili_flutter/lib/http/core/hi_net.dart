@@ -36,17 +36,24 @@ class HiNet {
     var result = response?.data;
     printLog(result);
     var status = response?.statusCode;
+    var hiError;
     switch (status) {
       case 200:
         printLog("200");
         return result;
       case 401:
-        throw NeedLogin();
+        hiError = NeedLogin();
+        break;
       case 403:
-        throw NeedAuth(result.toString(), data: result);
+        hiError = NeedAuth(result.toString(), data: result);
+        break;
       default:
-        throw HiNetError(status ?? -1, result.toString(), data: result);
+        hiError = HiNetError(status ?? -1, result.toString(), data: result);
     }
+    if (_hiErrorInterceptor != null) {
+      _hiErrorInterceptor!(hiError);
+    }
+    throw HiNetError;
   }
 
   Future<HiNetResponse<T>> send<T>(BaseRequest request) async {

@@ -63,7 +63,6 @@ class BiliRouteDelegate extends RouterDelegate<BiliRoutePath>
       if (error is NeedLogin) {
         //清空失效的登录令牌
         HiCache.getInstance().remove(LoginDao.BOARDING_PASS);
-
         //拉起登录
         HiNavigator.getInstance().onJump(RouteStatus.login);
       }

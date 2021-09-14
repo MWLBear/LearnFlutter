@@ -2,6 +2,7 @@ import 'package:bibili_flutter/navigator/hi_navigator.dart';
 import 'package:bibili_flutter/page/home_tab_page.dart';
 import 'package:bibili_flutter/util/color.dart';
 import 'package:flutter/material.dart';
+import 'package:underline_indicator/underline_indicator.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -71,7 +72,8 @@ class _HomePageState extends State<HomePage>
       isScrollable: true,
       controller: _controller,
       labelColor: Colors.black,
-      indicator: UnderlineTabIndicator(
+      indicator: UnderlineIndicator(
+          strokeCap: StrokeCap.round,
           borderSide: BorderSide(width: 3, color: primary),
           insets: EdgeInsets.only(left: 15, right: 15)),
       tabs: tabs.map((tab) {
