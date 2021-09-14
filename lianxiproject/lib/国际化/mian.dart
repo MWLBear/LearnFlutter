@@ -38,6 +38,7 @@ class HomeBody extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
     print("HomeBody build");
+    InheritedWidget;
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Center(
