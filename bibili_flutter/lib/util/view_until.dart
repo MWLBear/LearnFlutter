@@ -35,9 +35,9 @@ void changeStatusBar(
         ? Brightness.light
         : Brightness.dark;
   }
-
+  //ios上 light:黑色图标 dark：白色图标
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
       statusBarColor: Colors.transparent,
-      statusBarBrightness: brightness,
-      statusBarIconBrightness: brightness));
+      statusBarBrightness: brightness, //ios生效
+      statusBarIconBrightness: brightness)); //android生效
 }
