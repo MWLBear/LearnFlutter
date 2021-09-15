@@ -4,13 +4,12 @@ import 'package:bibili_flutter/http/dao/home_dao.dart';
 import 'package:bibili_flutter/model/home_mo.dart';
 import 'package:bibili_flutter/navigator/hi_navigator.dart';
 import 'package:bibili_flutter/page/home_tab_page.dart';
-import 'package:bibili_flutter/util/color.dart';
 import 'package:bibili_flutter/util/toast.dart';
 import 'package:bibili_flutter/util/view_until.dart';
+import 'package:bibili_flutter/widget/hi_tab.dart';
 import 'package:bibili_flutter/widget/loading_container.dart';
 import 'package:bibili_flutter/widget/navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:underline_indicator/underline_indicator.dart';
 
 class HomePage extends StatefulWidget {
   final ValueChanged<int>? onJumpTo;
@@ -89,25 +88,17 @@ class _HomePageState extends HiState<HomePage>
   bool get wantKeepAlive => true;
 
   _tabBar() {
-    return TabBar(
-      isScrollable: true,
-      controller: _controller,
-      labelColor: Colors.black,
-      indicator: UnderlineIndicator(
-          strokeCap: StrokeCap.round,
-          borderSide: BorderSide(width: 3, color: primary),
-          insets: EdgeInsets.only(left: 15, right: 15)),
-      tabs: categoryList.map((mo) {
+    return HiTab(
+      categoryList.map((tab) {
         return Tab(
-          child: Padding(
-            padding: EdgeInsets.only(left: 5, right: 5),
-            child: Text(
-              mo.name,
-              style: TextStyle(fontSize: 16),
-            ),
-          ),
+          text: tab.name,
         );
       }).toList(),
+      controller: _controller,
+      fontSize: 16,
+      borderWidth: 3,
+      unselectedLabelColor: Colors.black54,
+      insets: 13,
     );
   }
 

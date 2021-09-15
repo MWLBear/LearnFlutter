@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 
 enum StatusStyle { LIGHT_CONTENT, DARK_CONTENT }
 
-//带缓存的image
+///带缓存的image
 Widget cachedImage(String url, {double? width, double? height}) {
   return CachedNetworkImage(
     fit: BoxFit.cover,
@@ -20,7 +20,22 @@ Widget cachedImage(String url, {double? width, double? height}) {
   );
 }
 
-//修改状态栏
+///黑色线性渐变
+blackLinearGradient({bool fromTop = false}) {
+  return LinearGradient(
+      begin: fromTop ? Alignment.topCenter : Alignment.bottomCenter,
+      end: fromTop ? Alignment.bottomCenter : Alignment.topCenter,
+      colors: [
+        Colors.black54,
+        Colors.black45,
+        Colors.black38,
+        Colors.black26,
+        Colors.black12,
+        Colors.transparent
+      ]);
+}
+
+///修改状态栏
 void changeStatusBar(
     {color: Colors.white,
     StatusStyle statusStyle: StatusStyle.DARK_CONTENT,

@@ -12,33 +12,36 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 class HomeTabPage extends StatefulWidget {
   final String categoryName;
   final List<BannerMo>? bannerList;
-  const HomeTabPage({Key? key, required this.categoryName,this.bannerList}) : super(key: key);
+  const HomeTabPage({Key? key, required this.categoryName, this.bannerList})
+      : super(key: key);
 
   @override
   _HomeTabPageState createState() => _HomeTabPageState();
 }
 
-class _HomeTabPageState extends State<HomeTabPage> with AutomaticKeepAliveClientMixin{
-  List<VideoModel>videoList = [];
+class _HomeTabPageState extends State<HomeTabPage>
+    with AutomaticKeepAliveClientMixin {
+  List<VideoModel> videoList = [];
   int pageIndex = 1;
   bool _loading = false;
   ScrollController _scrollController = ScrollController();
 
   @override
-  void initState(){
+  void initState() {
     print("list:${widget.bannerList}");
     super.initState();
     _scrollController.addListener(() {
-      var dis = _scrollController.position.maxScrollExtent - _scrollController.position.pixels;
-      if(dis < 300 && !_loading){
-        _loadData(loadMore:true);
+      var dis = _scrollController.position.maxScrollExtent -
+          _scrollController.position.pixels;
+      if (dis < 300 && !_loading) {
+        _loadData(loadMore: true);
       }
     });
     _loadData();
   }
 
   @override
-  void dispose(){
+  void dispose() {
     _scrollController.dispose();
     super.dispose();
   }
@@ -50,71 +53,71 @@ class _HomeTabPageState extends State<HomeTabPage> with AutomaticKeepAliveClient
       color: primary,
       onRefresh: _loadData,
       child: MediaQuery.removePadding(
-        removeTop: true,
+          removeTop: true,
           context: context,
           child: StaggeredGridView.countBuilder(
               controller: _scrollController,
               physics: const AlwaysScrollableScrollPhysics(),
-              padding: EdgeInsets.only(top: 10,left: 10,right: 10),
+              padding: EdgeInsets.only(top: 10, left: 10, right: 10),
               itemCount: videoList.length,
               crossAxisCount: 2,
-              itemBuilder: (context,index){
-                if(widget.bannerList != null && index == 0){
-                  return Padding(padding: EdgeInsets.only(bottom: 8),child: _banner());
-                }else{
+              itemBuilder: (context, index) {
+                if (widget.bannerList != null && index == 0) {
+                  return Padding(
+                      padding: EdgeInsets.only(bottom: 8), child: _banner());
+                } else {
                   return VideoCard(videoModel: videoList[index]);
                 }
-          }, staggeredTileBuilder: (index){
-              if(widget.bannerList!= null && index == 0){
-                return StaggeredTile.fit(2);
-              }else{
-                return StaggeredTile.fit(1);
-              }
-          })
-      ),
+              },
+              staggeredTileBuilder: (index) {
+                if (widget.bannerList != null && index == 0) {
+                  return StaggeredTile.fit(2);
+                } else {
+                  return StaggeredTile.fit(1);
+                }
+              })),
     );
   }
 
   @override
   bool get wantKeepAlive => true;
 
-  Future<void> _loadData({bool loadMore = false}) async{
+  Future<void> _loadData({bool loadMore = false}) async {
     _loading = true;
-    if(!loadMore){
+    if (!loadMore) {
       pageIndex = 1;
     }
-    var currentIndex = pageIndex + (loadMore? 1: 0);
+    var currentIndex = pageIndex + (loadMore ? 1 : 0);
     print("loading_currentIndex:$currentIndex");
-    try{
-      HomeMo result = await HomeDao.get(widget.categoryName,pageIndex: currentIndex,pageSize: 10);
+    try {
+      HomeMo result = await HomeDao.get(widget.categoryName,
+          pageIndex: currentIndex, pageSize: 10);
       setState(() {
-        if(loadMore){
-          if(videoList.isNotEmpty){
+        if (loadMore) {
+          if (videoList.isNotEmpty) {
             ///合成一个新数组
-            videoList = [...videoList,...result.videoList];
+            videoList = [...videoList, ...result.videoList];
             pageIndex++;
           }
-        }else{
+        } else {
           videoList = result.videoList;
         }
       });
-      Future.delayed(Duration(microseconds: 1000),(){
+      Future.delayed(Duration(microseconds: 1000), () {
         _loading = false;
       });
-    }on NeedLogin catch(e){
+    } on NeedLogin catch (e) {
       _loading = false;
       showWarnToast(e.message);
-    }on HiNetError catch(e){
+    } on HiNetError catch (e) {
       _loading = false;
       showWarnToast(e.message);
     }
   }
 
   _banner() {
-    return Padding(padding: EdgeInsets.only(left: 5,right: 5),child: HiBanner(widget.bannerList!));
-
+    return Padding(
+        padding: EdgeInsets.only(left: 5, right: 5),
+        child: HiBanner(widget.bannerList!));
   }
-
-
-
 }
