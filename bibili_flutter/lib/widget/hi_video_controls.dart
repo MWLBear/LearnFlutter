@@ -100,11 +100,9 @@ class _MaterialControlsState extends State<MaterialControls>
             children: [
               widget.barrageUI ?? Container(),
               if (_latestValue.isBuffering)
-                const Expanded(
-                  child: Center(
-                    child: CircularProgressIndicator(
-                      color: primary,
-                    ),
+                const Center(
+                  child: CircularProgressIndicator(
+                    color: primary,
                   ),
                 )
               else

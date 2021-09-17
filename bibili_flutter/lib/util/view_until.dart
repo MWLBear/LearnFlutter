@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:bibili_flutter/util/format_until.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -55,4 +56,47 @@ void changeStatusBar(
       statusBarColor: Colors.transparent,
       statusBarBrightness: brightness, //ios生效
       statusBarIconBrightness: brightness)); //android生效
+}
+
+///带文字的小图标
+smallIconText(IconData iconData, var text) {
+  var textStyle = TextStyle(fontSize: 12, color: Colors.grey);
+  if (text is int) {
+    text = countFormat(text);
+  }
+  return [
+    Icon(
+      iconData,
+      color: Colors.grey,
+      size: 12,
+    ),
+    Text(
+      '$text',
+      style: textStyle,
+    )
+  ];
+}
+
+/// border线
+bordLine(BuildContext context, {bottom: true, top: false}) {
+  BorderSide slider = BorderSide(width: 0.5,color: Colors.grey[200]!);
+  return Border(bottom: bottom? slider:BorderSide.none,
+  top: top? slider:BorderSide.none);
+}
+
+/// 间距
+SizedBox hiSpace({double height: 1, double width: 1}) {
+  return SizedBox(height: height, width: width);
+}
+
+/// 底部阴影
+BoxDecoration? bottomBoxShadow() {
+  return BoxDecoration(color: Colors.white, boxShadow: [
+    BoxShadow(
+        color: Colors.grey[100]!,
+        offset: Offset(0, 5),
+        blurRadius: 5.0, //阴影模糊程度
+        spreadRadius: 1 //阴影的扩散程度
+        )
+  ]);
 }

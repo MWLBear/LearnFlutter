@@ -1,17 +1,27 @@
 import 'dart:io';
 
+import 'package:bibili_flutter/http/core/hi_error.dart';
+import 'package:bibili_flutter/http/dao/favorite_dao.dart';
+import 'package:bibili_flutter/http/dao/like_dao.dart';
+import 'package:bibili_flutter/http/dao/video_detail_dao.dart';
+import 'package:bibili_flutter/model/video_detail_mo.dart';
 import 'package:bibili_flutter/model/video_model.dart';
+import 'package:bibili_flutter/util/toast.dart';
 import 'package:bibili_flutter/util/view_until.dart';
 import 'package:bibili_flutter/widget/appbar.dart';
+import 'package:bibili_flutter/widget/expandable_content.dart';
 import 'package:bibili_flutter/widget/hi_tab.dart';
 import 'package:bibili_flutter/widget/navigation_bar.dart';
+import 'package:bibili_flutter/widget/video_header.dart';
+import 'package:bibili_flutter/widget/video_large_card.dart';
+import 'package:bibili_flutter/widget/video_tool_bar.dart';
 import 'package:bibili_flutter/widget/video_view.dart';
 import 'package:flutter/material.dart';
 
 class VideoDetail extends StatefulWidget {
-  final VideoModel model;
+  final VideoModel videoModel;
 
-  const VideoDetail(this.model);
+  const VideoDetail(this.videoModel);
 
   @override
   _VideoDetailState createState() => _VideoDetailState();
@@ -21,6 +31,10 @@ class _VideoDetailState extends State<VideoDetail>
     with TickerProviderStateMixin {
   late TabController _controller;
   List tabs = ["简介", "评论999"];
+  VideoDetailMo? videoDetailMo;
+  VideoModel? videoModel;
+  List<VideoModel> videoList = [];
+
   @override
   void initState() {
     super.initState();
@@ -28,6 +42,8 @@ class _VideoDetailState extends State<VideoDetail>
     changeStatusBar(
         color: Colors.black, statusStyle: StatusStyle.LIGHT_CONTENT);
     _controller = TabController(length: tabs.length, vsync: this);
+    videoModel = widget.videoModel;
+    _loadDetail();
   }
 
   @override
@@ -42,24 +58,34 @@ class _VideoDetailState extends State<VideoDetail>
       body: MediaQuery.removePadding(
           removeTop: Platform.isIOS,
           context: context,
-          child: Column(
-            children: [
-              NavigationBar(
-                color: Colors.black,
-                statusStyle: StatusStyle.LIGHT_CONTENT,
-                height: Platform.isAndroid ? 0 : 46,
-              ),
-              _buildVideoView(),
-              _buildTabNavigation(),
-            ],
-          )),
+          child: videoModel?.url != null
+              ? Column(
+                  children: [
+                    NavigationBar(
+                      color: Colors.black,
+                      statusStyle: StatusStyle.LIGHT_CONTENT,
+                      height: Platform.isAndroid ? 0 : 46,
+                    ),
+                    _buildVideoView(),
+                    _buildTabNavigation(),
+                    Flexible(
+                        child: TabBarView(controller: _controller, children: [
+                      _buildDetailList(),
+                      Container(
+                        child: Text("敬请期待"),
+                      )
+                    ])),
+                  ],
+                )
+              : Container()),
     );
   }
 
   _buildVideoView() {
+    var model = videoModel;
     return VideoView(
-      widget.model.url!,
-      cover: widget.model.cover,
+      model!.url!,
+      cover: model.cover,
       overlyUI: videoAppBar(),
     );
   }
@@ -98,5 +124,107 @@ class _VideoDetailState extends State<VideoDetail>
       }).toList(),
       controller: _controller,
     );
+  }
+
+  _buildDetailList() {
+    return ListView(
+      padding: EdgeInsets.all(0),
+      children: [...buildContents(), ...buildVideoList()],
+    );
+  }
+
+  buildContents() {
+    return [
+      VideoHeader(owner: videoModel!.owner),
+      ExpandableContent(mo: videoModel!),
+      VideoToolBar(
+        detailMo: videoDetailMo,
+        videoModel: videoModel!,
+        onLike: _doLike,
+        onUnlike: _doUnLike,
+        onFavorite: _doFavorite,
+        onShare: _doShare,
+      )
+    ];
+  }
+
+  void _loadDetail() async {
+    try {
+      VideoDetailMo result = await VideoDetailDao.get(videoModel!.vid);
+      print(result);
+      setState(() {
+        videoDetailMo = result;
+        //更新旧的数据
+        videoModel = result.videoInfo;
+        videoList = result.videoList;
+      });
+    } on NeedAuth catch (e) {
+      print(e.message);
+      showWarnToast(e.message);
+    } on HiNetError catch (e) {
+      print(e.message);
+    }
+  }
+
+  ///点赞
+  _doLike() async {
+    try {
+      var result = await LikeDao.like(videoModel!.vid, !videoDetailMo!.isLike);
+      print(result);
+      showToast(result['msg']);
+      videoDetailMo!.isLike = !videoDetailMo!.isLike;
+      if (videoDetailMo!.isLike) {
+        videoModel!.like += 1;
+      } else {
+        videoModel!.like -= 1;
+      }
+      setState(() {
+        videoDetailMo = videoDetailMo;
+        videoModel = videoModel;
+      });
+    } on NeedAuth catch (e) {
+      print(e);
+      showWarnToast(e.message);
+    } on HiNetError catch (e) {
+      print(e);
+    }
+  }
+
+  ///不喜欢
+  _doUnLike() {
+    print("不喜欢");
+  }
+
+  ///收藏
+  _doFavorite() async {
+    try {
+      var result = await FavoriteDao.favorite(
+          videoModel!.vid, !videoDetailMo!.isFavorite);
+      print(result);
+      showToast(result['msg']);
+      videoDetailMo!.isFavorite = !videoDetailMo!.isFavorite;
+      if (videoDetailMo!.isFavorite) {
+        videoModel!.favorite += 1;
+      } else {
+        videoModel!.favorite -= 1;
+      }
+      setState(() {
+        videoDetailMo = videoDetailMo;
+        videoModel = videoModel;
+      });
+    } on NeedAuth catch (e) {
+      print(e);
+      showWarnToast(e.message);
+    } on HiNetError catch (e) {
+      print(e);
+    }
+  }
+
+  void _doShare() {
+    print("分享");
+  }
+
+  buildVideoList() {
+    return videoList.map((mo) => VideoLargeCard(videoModel: mo)).toList();
   }
 }
