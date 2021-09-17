@@ -18,16 +18,16 @@ import 'package:bibili_flutter/widget/video_tool_bar.dart';
 import 'package:bibili_flutter/widget/video_view.dart';
 import 'package:flutter/material.dart';
 
-class VideoDetail extends StatefulWidget {
+class VideoDetailPage extends StatefulWidget {
   final VideoModel videoModel;
 
-  const VideoDetail(this.videoModel);
+  const VideoDetailPage(this.videoModel);
 
   @override
-  _VideoDetailState createState() => _VideoDetailState();
+  _VideoDetailPageState createState() => _VideoDetailPageState();
 }
 
-class _VideoDetailState extends State<VideoDetail>
+class _VideoDetailPageState extends State<VideoDetailPage>
     with TickerProviderStateMixin {
   late TabController _controller;
   List tabs = ["简介", "评论999"];
@@ -62,6 +62,7 @@ class _VideoDetailState extends State<VideoDetail>
               ? Column(
                   children: [
                     NavigationBar(
+                      //ios 黑色状态栏
                       color: Colors.black,
                       statusStyle: StatusStyle.LIGHT_CONTENT,
                       height: Platform.isAndroid ? 0 : 46,

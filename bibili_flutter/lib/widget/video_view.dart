@@ -20,7 +20,7 @@ class VideoView extends StatefulWidget {
   const VideoView(this.url,
       {Key? key,
       required this.cover,
-      this.autoPlay = true,
+      this.autoPlay = false,
       this.loop = false,
       this.aspectRatio = 16 / 9,
       this.overlyUI})

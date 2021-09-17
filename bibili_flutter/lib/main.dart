@@ -91,7 +91,7 @@ class BiliRouteDelegate extends RouterDelegate<BiliRoutePath>
     } else if (routeStatus == RouteStatus.login) {
       page = pageWrap(LoginPage());
     } else if (routeStatus == RouteStatus.detail) {
-      page = pageWrap(VideoDetail(videoModel!));
+      page = pageWrap(VideoDetailPage(videoModel!));
     }
     temPages = [...temPages, page];
     //通知路由发生变化

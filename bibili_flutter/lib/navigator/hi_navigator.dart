@@ -33,7 +33,7 @@ RouteStatus getStatus(MaterialPage page) {
     return RouteStatus.registration;
   } else if (page.child is BottomNavigator) {
     return RouteStatus.home;
-  } else if (page.child is VideoDetail) {
+  } else if (page.child is VideoDetailPage) {
     return RouteStatus.detail;
   } else {
     return RouteStatus.unknown;

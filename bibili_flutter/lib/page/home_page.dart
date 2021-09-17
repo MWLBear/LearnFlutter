@@ -4,6 +4,8 @@ import 'package:bibili_flutter/http/dao/home_dao.dart';
 import 'package:bibili_flutter/model/home_mo.dart';
 import 'package:bibili_flutter/navigator/hi_navigator.dart';
 import 'package:bibili_flutter/page/home_tab_page.dart';
+import 'package:bibili_flutter/page/profile_page.dart';
+import 'package:bibili_flutter/page/video_detail_page.dart';
 import 'package:bibili_flutter/util/toast.dart';
 import 'package:bibili_flutter/util/view_until.dart';
 import 'package:bibili_flutter/widget/hi_tab.dart';
@@ -20,7 +22,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends HiState<HomePage>
-    with AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
+    with
+        AutomaticKeepAliveClientMixin,
+        TickerProviderStateMixin,
+        WidgetsBindingObserver {
   var listener;
   late TabController _controller;
   List<CategoryMo> categoryList = [];
@@ -29,6 +34,7 @@ class _HomePageState extends HiState<HomePage>
 
   @override
   void initState() {
+    WidgetsBinding.instance?.addObserver(this);
     _controller = TabController(length: categoryList.length, vsync: this);
     HiNavigator.getInstance().addListener(this.listener = (current, pre) {
       print('home:current:${current.page}');
@@ -38,6 +44,12 @@ class _HomePageState extends HiState<HomePage>
       } else if (widget == pre?.page || pre?.page is HomePage) {
         print('首页:onPause');
       }
+
+      //当页面返回到首页恢复首页的状态栏样式
+      if (pre?.page is VideoDetailPage && !(current.page is ProfilePage)) {
+        var statusStyle = StatusStyle.DARK_CONTENT;
+        changeStatusBar(color: Colors.white, statusStyle: statusStyle);
+      }
     });
     super.initState();
     loadData();
@@ -45,8 +57,29 @@ class _HomePageState extends HiState<HomePage>
 
   @override
   void dispose() {
+    WidgetsBinding.instance?.removeObserver(this);
     HiNavigator.getInstance().removeListener(listener);
+    _controller.dispose();
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    print('didChangeAppLifecycleState:$state');
+    switch (state) {
+      case AppLifecycleState.inactive: //处于这种状态的应用程序应该假设它们可能在任何时候暂停。
+        break;
+        break;
+      case AppLifecycleState.resumed: //从后台切换前台，界面可见
+        //fix Android压后台首页状态栏字体颜色变白，详情页状态栏字体变黑问题
+        changeStatusBar();
+        break;
+      case AppLifecycleState.paused: //APP进入后台
+        break;
+      case AppLifecycleState.detached: //App结束
+        break;
+    }
   }
 
   @override
@@ -64,7 +97,7 @@ class _HomePageState extends HiState<HomePage>
               statusStyle: StatusStyle.DARK_CONTENT,
             ),
             Container(
-              color: Colors.white,
+              decoration: bottomBoxShadow(),
               child: _tabBar(),
             ),
             Flexible(
