@@ -68,6 +68,8 @@ class VideoLargeCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(videoModel.title,
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
                 style: TextStyle(fontSize: 12, color: Colors.black87)),
             _buildBottomContent(),
           ],
