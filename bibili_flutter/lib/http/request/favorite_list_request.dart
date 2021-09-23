@@ -1,6 +1,6 @@
 import 'package:bibili_flutter/http/request/base_request.dart';
 
-class NoticeRequest extends BaseRequest {
+class FavoriteListRequest extends BaseRequest {
   @override
   HttpMethod httpMethod() {
     return HttpMethod.GET;
@@ -13,6 +13,6 @@ class NoticeRequest extends BaseRequest {
 
   @override
   String path() {
-    return '/uapi/notice';
+    return "uapi/fa/favorites";
   }
 }

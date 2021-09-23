@@ -1,9 +1,11 @@
 import 'package:bibili_flutter/navigator/bottom_navigator.dart';
 import 'package:bibili_flutter/page/login_page.dart';
+import 'package:bibili_flutter/page/notice_page.dart';
 import 'package:bibili_flutter/page/registration_page.dart';
 import 'package:bibili_flutter/page/video_detail_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 typedef RouteChangeListener(RouteStatusInfo current, RouteStatusInfo? pre);
 
@@ -23,7 +25,7 @@ int getPageIndex(List<MaterialPage> pages, RouteStatus routeStatus) {
 }
 
 ///自定义路由封装 路由状态
-enum RouteStatus { login, registration, home, detail, unknown }
+enum RouteStatus { login, registration, home, detail, unknown, notice }
 
 ///获取page对应的RouteStatus
 RouteStatus getStatus(MaterialPage page) {
@@ -33,6 +35,8 @@ RouteStatus getStatus(MaterialPage page) {
     return RouteStatus.registration;
   } else if (page.child is BottomNavigator) {
     return RouteStatus.home;
+  } else if (page.child is NoticePage) {
+    return RouteStatus.notice;
   } else if (page.child is VideoDetailPage) {
     return RouteStatus.detail;
   } else {
@@ -69,6 +73,16 @@ class HiNavigator extends _RouteJumpListener {
       _instance = HiNavigator._();
     }
     return _instance!;
+  }
+
+  Future<bool> openH5(String url) async {
+    var result = await canLaunch(url);
+    print("result:$result");
+    if (result) {
+      return await launch(url);
+    } else {
+      return Future.value(false);
+    }
   }
 
   ///首页底部tab切换监听

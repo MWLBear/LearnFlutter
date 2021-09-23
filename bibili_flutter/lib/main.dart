@@ -4,6 +4,7 @@ import 'package:bibili_flutter/http/dao/login_dao.dart';
 import 'package:bibili_flutter/model/video_model.dart';
 import 'package:bibili_flutter/navigator/hi_navigator.dart';
 import 'package:bibili_flutter/page/login_page.dart';
+import 'package:bibili_flutter/page/notice_page.dart';
 import 'package:bibili_flutter/page/registration_page.dart';
 import 'package:bibili_flutter/page/video_detail_page.dart';
 import 'package:bibili_flutter/util/color.dart';
@@ -90,6 +91,8 @@ class BiliRouteDelegate extends RouterDelegate<BiliRoutePath>
       page = pageWrap(RegistrationPage());
     } else if (routeStatus == RouteStatus.login) {
       page = pageWrap(LoginPage());
+    } else if (routeStatus == RouteStatus.notice) {
+      page = pageWrap(NoticePage());
     } else if (routeStatus == RouteStatus.detail) {
       page = pageWrap(VideoDetailPage(videoModel!));
     }
@@ -133,8 +136,6 @@ class BiliRouteDelegate extends RouterDelegate<BiliRoutePath>
   RouteStatus get routeStatus {
     if (_routeStatus != RouteStatus.registration && !hasLogin) {
       return _routeStatus = RouteStatus.login;
-    } else if (videoModel != null) {
-      return _routeStatus = RouteStatus.detail;
     } else {
       return _routeStatus;
     }

@@ -2,7 +2,6 @@ import 'package:bibili_flutter/model/home_mo.dart';
 import 'package:bibili_flutter/model/video_model.dart';
 import 'package:bibili_flutter/navigator/hi_navigator.dart';
 import 'package:bibili_flutter/util/view_until.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 
@@ -49,17 +48,18 @@ class HiBanner extends StatelessWidget {
         child: ClipRRect(
             borderRadius: BorderRadius.all(Radius.circular(6)),
             child: cachedImage(bannerMo.cover)),
-            //Image.network(bannerMo.cover, fit: BoxFit.cover)),
+        //Image.network(bannerMo.cover, fit: BoxFit.cover)),
       ),
     );
   }
+}
 
-  void handelBannerClick(BannerMo mo) {
-    if (mo.type == 'video') {
-      HiNavigator.getInstance().onJump(RouteStatus.detail,
-          args: {"videoMo": VideoModel(vid: mo.url)});
-    } else {
-      print("type:${mo.type},url:${mo.url}");
-    }
+void handelBannerClick(BannerMo mo) {
+  if (mo.type == 'video') {
+    HiNavigator.getInstance()
+        .onJump(RouteStatus.detail, args: {"videoMo": VideoModel(vid: mo.url)});
+  } else {
+    print("type:${mo.type},url:${mo.url}");
+    HiNavigator.getInstance().openH5(mo.url);
   }
 }

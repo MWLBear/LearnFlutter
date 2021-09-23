@@ -54,13 +54,14 @@ class BannerMo {
   late String createTime;
 
   BannerMo.fromJson(Map<String, dynamic> json) {
+    print("cover:${json['cover']}");
     id = json['id'];
     sticky = json['sticky'];
     type = json['type'];
     title = json['title'];
     subtitle = json['subtitle'];
     url = json['url'];
-    cover = json['cover'];
+    cover = json['cover'] ?? "";
     createTime = json['createTime'];
   }
 
