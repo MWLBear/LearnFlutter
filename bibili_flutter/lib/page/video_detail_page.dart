@@ -1,11 +1,15 @@
 import 'dart:io';
 
+import 'package:bibili_flutter/barrage/barrage_input.dart';
+import 'package:bibili_flutter/barrage/barrage_switch.dart';
+import 'package:bibili_flutter/barrage/hi_barrage.dart';
 import 'package:bibili_flutter/http/core/hi_error.dart';
 import 'package:bibili_flutter/http/dao/favorite_dao.dart';
 import 'package:bibili_flutter/http/dao/like_dao.dart';
 import 'package:bibili_flutter/http/dao/video_detail_dao.dart';
 import 'package:bibili_flutter/model/video_detail_mo.dart';
 import 'package:bibili_flutter/model/video_model.dart';
+import 'package:bibili_flutter/util/hi_constants.dart';
 import 'package:bibili_flutter/util/toast.dart';
 import 'package:bibili_flutter/util/view_until.dart';
 import 'package:bibili_flutter/widget/appbar.dart';
@@ -17,6 +21,7 @@ import 'package:bibili_flutter/widget/video_large_card.dart';
 import 'package:bibili_flutter/widget/video_tool_bar.dart';
 import 'package:bibili_flutter/widget/video_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_overlay/flutter_overlay.dart';
 
 class VideoDetailPage extends StatefulWidget {
   final VideoModel videoModel;
@@ -34,6 +39,8 @@ class _VideoDetailPageState extends State<VideoDetailPage>
   VideoDetailMo? videoDetailMo;
   VideoModel? videoModel;
   List<VideoModel> videoList = [];
+  bool _inoutShowing = false;
+  var _barrageKey = GlobalKey<HiBarrageState>();
 
   @override
   void initState() {
@@ -84,11 +91,16 @@ class _VideoDetailPageState extends State<VideoDetailPage>
 
   _buildVideoView() {
     var model = videoModel;
-    return VideoView(
-      model!.url!,
-      cover: model.cover,
-      overlyUI: videoAppBar(),
-    );
+    return VideoView(model!.url!,
+        cover: model.cover,
+        overlyUI: videoAppBar(),
+        barrageUI: HiBarrage(
+          top: 10,
+          headers: HiConstants.headers(),
+          key: _barrageKey,
+          vid: model.vid,
+          autoPlay: true,
+        ));
   }
 
   _buildTabNavigation() {
@@ -105,13 +117,7 @@ class _VideoDetailPageState extends State<VideoDetailPage>
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             _tabBar(),
-            Padding(
-              padding: EdgeInsets.only(right: 20),
-              child: Icon(
-                Icons.live_tv_rounded,
-                color: Colors.grey,
-              ),
-            ),
+            _buildBarrageBtn(),
           ],
         ),
       ),
@@ -227,5 +233,31 @@ class _VideoDetailPageState extends State<VideoDetailPage>
 
   buildVideoList() {
     return videoList.map((mo) => VideoLargeCard(videoModel: mo)).toList();
+  }
+
+  _buildBarrageBtn() {
+    return BarrageSwitch(
+      inoutShowing: _inoutShowing,
+      onShowInput: () {
+        setState(() {
+          _inoutShowing = true;
+        });
+        HiOverlay.show(context, child: BarrageInput(onTabClose: () {
+          setState(() {
+            _inoutShowing = false;
+          });
+        })).then((value) {
+          print("---input:$value");
+          _barrageKey.currentState!.send(value);
+        });
+      },
+      onBarrageSwitch: (open) {
+        if (open) {
+          _barrageKey.currentState!.play();
+        } else {
+          _barrageKey.currentState!.pause();
+        }
+      },
+    );
   }
 }

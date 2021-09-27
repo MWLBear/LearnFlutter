@@ -139,6 +139,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "3.1.2"
+  flutter_overlay:
+    dependency: "direct main"
+    description:
+      name: flutter_overlay
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.0.0"
   flutter_staggered_grid_view:
     dependency: "direct main"
     description:
@@ -567,6 +574,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.2.0"
+  web_socket_channel:
+    dependency: "direct main"
+    description:
+      name: web_socket_channel
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.1.0"
   win32:
     dependency: transitive
     description:

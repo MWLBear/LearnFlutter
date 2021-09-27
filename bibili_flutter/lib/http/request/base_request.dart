@@ -1,4 +1,5 @@
 import 'package:bibili_flutter/http/dao/login_dao.dart';
+import 'package:bibili_flutter/util/hi_constants.dart';
 
 enum HttpMethod { GET, POST, DELETE }
 
@@ -45,8 +46,8 @@ abstract class BaseRequest {
   }
 
   Map<String, dynamic> header = {
-    'course-flag': 'fa',
-    "auth-token": "ZmEtMjAyMS0wNC0xMiAyMToyMjoyMC1mYQ==fa",
+    HiConstants.authTokenK: HiConstants.authTokenV,
+    HiConstants.courseFlagK: HiConstants.courseFlagV,
   };
   BaseRequest addHeader(String k, Object v) {
     header[k] = v.toString();
