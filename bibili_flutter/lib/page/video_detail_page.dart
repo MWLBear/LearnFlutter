@@ -9,6 +9,8 @@ import 'package:bibili_flutter/http/dao/like_dao.dart';
 import 'package:bibili_flutter/http/dao/video_detail_dao.dart';
 import 'package:bibili_flutter/model/video_detail_mo.dart';
 import 'package:bibili_flutter/model/video_model.dart';
+import 'package:bibili_flutter/provider/them_provider.dart';
+import 'package:bibili_flutter/util/color.dart';
 import 'package:bibili_flutter/util/hi_constants.dart';
 import 'package:bibili_flutter/util/toast.dart';
 import 'package:bibili_flutter/util/view_until.dart';
@@ -22,6 +24,7 @@ import 'package:bibili_flutter/widget/video_tool_bar.dart';
 import 'package:bibili_flutter/widget/video_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_overlay/flutter_overlay.dart';
+import 'package:provider/provider.dart';
 
 class VideoDetailPage extends StatefulWidget {
   final VideoModel videoModel;
@@ -41,10 +44,12 @@ class _VideoDetailPageState extends State<VideoDetailPage>
   List<VideoModel> videoList = [];
   bool _inoutShowing = false;
   var _barrageKey = GlobalKey<HiBarrageState>();
+  late ThemProvider _themeProvider;
 
   @override
   void initState() {
     super.initState();
+    _themeProvider = context.read<ThemProvider>();
     //黑色状态栏，仅Android
     changeStatusBar(
         color: Colors.black, statusStyle: StatusStyle.LIGHT_CONTENT);
@@ -105,14 +110,15 @@ class _VideoDetailPageState extends State<VideoDetailPage>
 
   _buildTabNavigation() {
     //使用Material实现阴影效果
+
     return Material(
       elevation: 10,
-      shadowColor: Colors.grey[100],
+      shadowColor: _themeProvider.isDark() ? HiColor.dark_bg : Colors.grey[100],
       child: Container(
         alignment: Alignment.centerLeft,
         padding: EdgeInsets.only(left: 10),
         height: 39,
-        color: Colors.white,
+        color: _themeProvider.isDark() ? HiColor.dark_bg : Colors.white,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

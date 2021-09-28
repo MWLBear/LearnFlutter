@@ -1,9 +1,15 @@
 import 'dart:io';
 
+import 'package:bibili_flutter/navigator/hi_navigator.dart';
+import 'package:bibili_flutter/page/profile_page.dart';
+import 'package:bibili_flutter/page/video_detail_page.dart';
+import 'package:bibili_flutter/provider/them_provider.dart';
+import 'package:bibili_flutter/util/color.dart';
 import 'package:bibili_flutter/util/format_until.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 enum StatusStyle { LIGHT_CONTENT, DARK_CONTENT }
 
@@ -41,6 +47,22 @@ void changeStatusBar(
     {color: Colors.white,
     StatusStyle statusStyle: StatusStyle.DARK_CONTENT,
     BuildContext? context}) {
+  if (context != null) {
+    var themeProvider = Provider.of<ThemProvider>(context, listen: false);
+    if (themeProvider.isDark()) {
+      statusStyle = StatusStyle.LIGHT_CONTENT;
+      color = HiColor.dark_bg;
+    }
+  }
+  var page = HiNavigator.getInstance().getCurrent()?.page;
+  //fix Android切换 profile页面状态栏变白问题
+  if (page is ProfilePage) {
+    color = Colors.transparent;
+  } else if (page is VideoDetailPage) {
+    color = Colors.black;
+    statusStyle = StatusStyle.LIGHT_CONTENT;
+  }
+  //沉浸式状态栏样式
   var brightness;
   if (Platform.isIOS) {
     brightness = statusStyle == StatusStyle.LIGHT_CONTENT
@@ -79,9 +101,14 @@ smallIconText(IconData iconData, var text) {
 
 /// border线
 bordLine(BuildContext context, {bottom: true, top: false}) {
-  BorderSide slider = BorderSide(width: 0.5,color: Colors.grey[200]!);
-  return Border(bottom: bottom? slider:BorderSide.none,
-  top: top? slider:BorderSide.none);
+  var themeProvider = context.watch<ThemProvider>();
+
+  BorderSide slider = BorderSide(
+      width: 0.5,
+      color: themeProvider.isDark() ? Colors.grey[800]! : Colors.grey[200]!);
+  return Border(
+      bottom: bottom ? slider : BorderSide.none,
+      top: top ? slider : BorderSide.none);
 }
 
 /// 间距
@@ -90,7 +117,12 @@ SizedBox hiSpace({double height: 1, double width: 1}) {
 }
 
 /// 底部阴影
-BoxDecoration? bottomBoxShadow() {
+BoxDecoration? bottomBoxShadow(BuildContext context) {
+  var themeProvider = context.watch<ThemProvider>();
+  //暗黑模式下不要阴影效果
+  if (themeProvider.isDark()) {
+    return null;
+  }
   return BoxDecoration(color: Colors.white, boxShadow: [
     BoxShadow(
         color: Colors.grey[100]!,

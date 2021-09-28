@@ -6,12 +6,14 @@ import 'package:bibili_flutter/navigator/hi_navigator.dart';
 import 'package:bibili_flutter/page/home_tab_page.dart';
 import 'package:bibili_flutter/page/profile_page.dart';
 import 'package:bibili_flutter/page/video_detail_page.dart';
+import 'package:bibili_flutter/provider/them_provider.dart';
 import 'package:bibili_flutter/util/toast.dart';
 import 'package:bibili_flutter/util/view_until.dart';
 import 'package:bibili_flutter/widget/hi_tab.dart';
 import 'package:bibili_flutter/widget/loading_container.dart';
 import 'package:bibili_flutter/widget/navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   final ValueChanged<int>? onJumpTo;
@@ -63,6 +65,14 @@ class _HomePageState extends HiState<HomePage>
     super.dispose();
   }
 
+  ///系统Dark Mode发生变化
+  @override
+  void didChangePlatformBrightness() {
+    print("didChangePlatformBrightness");
+    context.read<ThemProvider>().darkModeChange();
+    super.didChangePlatformBrightness();
+  }
+
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
@@ -73,7 +83,7 @@ class _HomePageState extends HiState<HomePage>
         break;
       case AppLifecycleState.resumed: //从后台切换前台，界面可见
         //fix Android压后台首页状态栏字体颜色变白，详情页状态栏字体变黑问题
-        changeStatusBar();
+        changeStatusBar(context: context);
         break;
       case AppLifecycleState.paused: //APP进入后台
         break;
@@ -97,7 +107,7 @@ class _HomePageState extends HiState<HomePage>
               statusStyle: StatusStyle.DARK_CONTENT,
             ),
             Container(
-              decoration: bottomBoxShadow(),
+              decoration: bottomBoxShadow(context),
               child: _tabBar(),
             ),
             Flexible(
@@ -193,7 +203,9 @@ class _HomePageState extends HiState<HomePage>
                 child: Icon(Icons.search, color: Colors.grey),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(16),
-                    color: Colors.grey[100]),
+                    color: context.watch<ThemProvider>().isDark()
+                        ? Colors.grey[800]
+                        : Colors.grey[100]),
               ),
             ),
           ),

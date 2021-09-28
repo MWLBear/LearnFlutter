@@ -3,13 +3,16 @@ import 'package:bibili_flutter/http/core/hi_error.dart';
 import 'package:bibili_flutter/http/dao/login_dao.dart';
 import 'package:bibili_flutter/model/video_model.dart';
 import 'package:bibili_flutter/navigator/hi_navigator.dart';
+import 'package:bibili_flutter/page/dark_mode_page.dart';
 import 'package:bibili_flutter/page/login_page.dart';
 import 'package:bibili_flutter/page/notice_page.dart';
 import 'package:bibili_flutter/page/registration_page.dart';
 import 'package:bibili_flutter/page/video_detail_page.dart';
-import 'package:bibili_flutter/util/color.dart';
+import 'package:bibili_flutter/provider/hi_provider.dart';
+import 'package:bibili_flutter/provider/them_provider.dart';
 import 'package:bibili_flutter/util/toast.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'http/core/hi_net.dart';
 import 'navigator/bottom_navigator.dart';
@@ -36,10 +39,22 @@ class _BiliAppState extends State<BiliApp> {
         var widget = snapshot.connectionState == ConnectionState.done
             ? Router(routerDelegate: _routeDelegate)
             : Scaffold(body: Center(child: CircularProgressIndicator()));
-        return MaterialApp(
-          home: widget,
-          theme: ThemeData(primaryColor: white),
-        );
+        return MultiProvider(
+            providers: topProviders,
+            child: Consumer<ThemProvider>(
+              builder: (
+                BuildContext context,
+                ThemProvider themProvider,
+                Widget? child,
+              ) {
+                return MaterialApp(
+                  home: widget,
+                  theme: themProvider.getTheme(),
+                  darkTheme: themProvider.getTheme(isDarkMode: true),
+                  themeMode: themProvider.getThemeMode(),
+                );
+              },
+            ));
       },
     );
   }
@@ -89,6 +104,8 @@ class BiliRouteDelegate extends RouterDelegate<BiliRoutePath>
       page = pageWrap(BottomNavigator());
     } else if (routeStatus == RouteStatus.registration) {
       page = pageWrap(RegistrationPage());
+    } else if (routeStatus == RouteStatus.darkMode) {
+      page = pageWrap(DarkModePage());
     } else if (routeStatus == RouteStatus.login) {
       page = pageWrap(LoginPage());
     } else if (routeStatus == RouteStatus.notice) {

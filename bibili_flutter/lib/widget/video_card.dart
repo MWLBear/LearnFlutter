@@ -1,8 +1,10 @@
 import 'package:bibili_flutter/model/video_model.dart';
 import 'package:bibili_flutter/navigator/hi_navigator.dart';
+import 'package:bibili_flutter/provider/them_provider.dart';
 import 'package:bibili_flutter/util/format_until.dart';
 import 'package:bibili_flutter/util/view_until.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class VideoCard extends StatelessWidget {
   final VideoModel videoModel;
@@ -11,6 +13,8 @@ class VideoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var themeProvider = context.watch<ThemProvider>();
+    Color textColor = themeProvider.isDark() ? Colors.white70 : Colors.black87;
     return InkWell(
       onTap: () {
         HiNavigator.getInstance()
@@ -19,6 +23,7 @@ class VideoCard extends StatelessWidget {
       child: SizedBox(
         height: 220,
         child: Card(
+          color: themeProvider.isDark() ? Colors.white10 : null,
           margin: EdgeInsets.only(left: 4, right: 4, bottom: 8),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(6),
@@ -26,7 +31,7 @@ class VideoCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _itemImage(context),
-                _infoText(),
+                _infoText(textColor),
               ],
             ),
           ),
@@ -66,7 +71,7 @@ class VideoCard extends StatelessWidget {
     );
   }
 
-  _infoText() {
+  _infoText(Color texColor) {
     return Expanded(
       child: Container(
         padding: EdgeInsets.only(top: 5, left: 8, bottom: 5, right: 5),
@@ -78,9 +83,9 @@ class VideoCard extends StatelessWidget {
               videoModel.title,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontSize: 12, color: Colors.black87),
+              style: TextStyle(fontSize: 12, color: texColor),
             ),
-            _owner()
+            _owner(texColor)
           ],
         ),
       ),
@@ -106,7 +111,7 @@ class VideoCard extends StatelessWidget {
     );
   }
 
-  _owner() {
+  _owner(Color texColor) {
     var owner = videoModel.owner;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -121,7 +126,7 @@ class VideoCard extends StatelessWidget {
                 padding: EdgeInsets.only(left: 8),
                 child: Text(
                   owner.name,
-                  style: TextStyle(fontSize: 11, color: Colors.black87),
+                  style: TextStyle(fontSize: 11, color: texColor),
                 )),
           ],
         ),

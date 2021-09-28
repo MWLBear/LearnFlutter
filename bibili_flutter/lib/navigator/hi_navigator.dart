@@ -1,4 +1,5 @@
 import 'package:bibili_flutter/navigator/bottom_navigator.dart';
+import 'package:bibili_flutter/page/dark_mode_page.dart';
 import 'package:bibili_flutter/page/login_page.dart';
 import 'package:bibili_flutter/page/notice_page.dart';
 import 'package:bibili_flutter/page/registration_page.dart';
@@ -25,12 +26,22 @@ int getPageIndex(List<MaterialPage> pages, RouteStatus routeStatus) {
 }
 
 ///自定义路由封装 路由状态
-enum RouteStatus { login, registration, home, detail, unknown, notice }
+enum RouteStatus {
+  login,
+  registration,
+  home,
+  detail,
+  unknown,
+  notice,
+  darkMode
+}
 
 ///获取page对应的RouteStatus
 RouteStatus getStatus(MaterialPage page) {
   if (page.child is LoginPage) {
     return RouteStatus.login;
+  } else if (page is DarkModePage) {
+    return RouteStatus.darkMode;
   } else if (page.child is RegistrationPage) {
     return RouteStatus.registration;
   } else if (page.child is BottomNavigator) {
@@ -73,6 +84,10 @@ class HiNavigator extends _RouteJumpListener {
       _instance = HiNavigator._();
     }
     return _instance!;
+  }
+
+  RouteStatusInfo? getCurrent() {
+    return _current;
   }
 
   Future<bool> openH5(String url) async {

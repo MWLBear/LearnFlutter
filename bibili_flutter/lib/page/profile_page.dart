@@ -1,15 +1,19 @@
 import 'package:bibili_flutter/http/core/hi_error.dart';
 import 'package:bibili_flutter/http/dao/profile_dao.dart';
 import 'package:bibili_flutter/model/profile_mo.dart';
+import 'package:bibili_flutter/provider/them_provider.dart';
+import 'package:bibili_flutter/util/color.dart';
 import 'package:bibili_flutter/util/toast.dart';
 import 'package:bibili_flutter/util/view_until.dart';
 import 'package:bibili_flutter/widget/benefit_card.dart';
 import 'package:bibili_flutter/widget/course_card.dart';
+import 'package:bibili_flutter/widget/dark_model_item.dart';
 import 'package:bibili_flutter/widget/hi_banner.dart';
 import 'package:bibili_flutter/widget/hi_blur.dart';
 import 'package:bibili_flutter/widget/hi_flexible_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -30,6 +34,7 @@ class _ProfilePageState extends State<ProfilePage>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       body: NestedScrollView(
         controller: _controller,
@@ -61,6 +66,7 @@ class _ProfilePageState extends State<ProfilePage>
   }
 
   _buildAppBar() {
+    var themeProvider = context.watch<ThemProvider>();
     return SliverAppBar(
       centerTitle: true,
       expandedHeight: 160,
@@ -76,13 +82,14 @@ class _ProfilePageState extends State<ProfilePage>
                     "https://www.devio.org/img/beauty_camera/beauty_camera4.jpg")),
             Positioned.fill(
                 child: HiBlur(
+              color: themeProvider.isDark() ? Colors.black54 : Colors.white10,
               sigma: 20,
             )),
             Positioned(
               left: 0,
               right: 0,
               bottom: 0,
-              child: _buildProfileTab(),
+              child: _buildProfileTab(themeProvider),
             )
           ],
         ),
@@ -96,6 +103,7 @@ class _ProfilePageState extends State<ProfilePage>
       _buildBanner(),
       CourseCard(courseList: _profileMo!.courseList),
       BenefitCard(benefitList: _profileMo!.benefitList),
+      DarkModelItem(),
     ];
   }
 
@@ -108,29 +116,38 @@ class _ProfilePageState extends State<ProfilePage>
     );
   }
 
-  _buildProfileTab() {
+  _buildProfileTab(ThemProvider themeProvider) {
     if (_profileMo == null) return Container();
     return Container(
       padding: EdgeInsets.only(top: 5, bottom: 5),
-      decoration: BoxDecoration(color: Colors.white54),
+      decoration: BoxDecoration(
+          color: themeProvider.isDark() ? HiColor.dark_bg : Colors.white54),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          _buildIconText("收藏", _profileMo!.favorite),
-          _buildIconText("点赞", _profileMo!.like),
-          _buildIconText("浏览", _profileMo!.browsing),
-          _buildIconText("金币", _profileMo!.coin),
-          _buildIconText("粉丝", _profileMo!.fans),
+          _buildIconText("收藏", _profileMo!.favorite, themeProvider),
+          _buildIconText("点赞", _profileMo!.like, themeProvider),
+          _buildIconText("浏览", _profileMo!.browsing, themeProvider),
+          _buildIconText("金币", _profileMo!.coin, themeProvider),
+          _buildIconText("粉丝", _profileMo!.fans, themeProvider),
         ],
       ),
     );
   }
 
-  _buildIconText(String text, int count) {
+  _buildIconText(String text, int count, ThemProvider themeProvider) {
     return Column(
       children: [
-        Text('$count', style: TextStyle(fontSize: 15, color: Colors.black87)),
-        Text(text, style: TextStyle(fontSize: 12, color: Colors.grey[600])),
+        Text('$count',
+            style: TextStyle(
+                fontSize: 15,
+                color: themeProvider.isDark() ? Colors.white : Colors.black87)),
+        Text(text,
+            style: TextStyle(
+                fontSize: 12,
+                color: themeProvider.isDark()
+                    ? Colors.white70
+                    : Colors.grey[600])),
       ],
     );
   }

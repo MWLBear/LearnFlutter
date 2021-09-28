@@ -1,8 +1,10 @@
 import 'package:bibili_flutter/model/video_model.dart';
 import 'package:bibili_flutter/navigator/hi_navigator.dart';
+import 'package:bibili_flutter/provider/them_provider.dart';
 import 'package:bibili_flutter/util/format_until.dart';
 import 'package:bibili_flutter/util/view_until.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class VideoLargeCard extends StatelessWidget {
   final VideoModel videoModel;
@@ -11,6 +13,8 @@ class VideoLargeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var themeProvider = context.watch<ThemProvider>();
+
     return GestureDetector(
       onTap: () {
         HiNavigator.getInstance()
@@ -24,7 +28,7 @@ class VideoLargeCard extends StatelessWidget {
         child: Row(
           children: [
             _itemImage(context),
-            _buildContent(),
+            _buildContent(themeProvider),
           ],
         ),
       ),
@@ -59,7 +63,9 @@ class VideoLargeCard extends StatelessWidget {
     );
   }
 
-  _buildContent() {
+  _buildContent(ThemProvider themeProvider) {
+    var textColor = themeProvider.isDark() ? Colors.grey : Colors.black87;
+
     return Expanded(
       child: Container(
         padding: EdgeInsets.only(top: 5, left: 10, right: 5),
@@ -70,7 +76,7 @@ class VideoLargeCard extends StatelessWidget {
             Text(videoModel.title,
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(fontSize: 12, color: Colors.black87)),
+                style: TextStyle(fontSize: 12, color: textColor)),
             _buildBottomContent(),
           ],
         ),

@@ -1,6 +1,8 @@
+import 'package:bibili_flutter/provider/them_provider.dart';
 import 'package:bibili_flutter/util/color.dart';
 import 'package:bibili_flutter/util/view_until.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 ///弹幕输入界面
 class BarrageInput extends StatelessWidget {
@@ -9,6 +11,8 @@ class BarrageInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var themeProvider = context.watch<ThemProvider>();
+
     TextEditingController textEditingController = TextEditingController();
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -26,11 +30,11 @@ class BarrageInput extends StatelessWidget {
           )),
           SafeArea(
             child: Container(
-              color: Colors.white,
+              color: themeProvider.isDark() ? HiColor.dark_bg : Colors.white,
               child: Row(
                 children: [
                   hiSpace(width: 5),
-                  _buildInput(textEditingController, context),
+                  _buildInput(textEditingController, context, themeProvider),
                   _buildSendBtn(textEditingController, context),
                 ],
               ),
@@ -41,13 +45,13 @@ class BarrageInput extends StatelessWidget {
     );
   }
 
-  _buildInput(
-      TextEditingController textEditingController, BuildContext context) {
+  _buildInput(TextEditingController textEditingController, BuildContext context,
+      ThemProvider themeProvider) {
     return Expanded(
       child: Container(
         margin: EdgeInsets.only(top: 10, bottom: 10),
         decoration: BoxDecoration(
-          color: Colors.grey[200],
+          color: themeProvider.isDark() ? Colors.grey[800] : Colors.grey[200],
           borderRadius: BorderRadius.circular(20),
         ),
         child: TextField(
